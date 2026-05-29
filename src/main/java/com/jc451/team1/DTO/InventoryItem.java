@@ -1,5 +1,6 @@
-package DTO;
+package com.jc451.team1.DTO;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -8,7 +9,7 @@ public class InventoryItem {
     private String ingredientName;
     private String unit;
     private int quantity;
-    private Date expirationDate;
+    private LocalDate expirationDate;
 
     public int getIngredientId() {
         return ingredientId;
@@ -42,13 +43,9 @@ public class InventoryItem {
         this.quantity = quantity;
     }
 
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
+    public LocalDate getExpirationDate() { return expirationDate; }
 
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
+    public void setExpirationDate(LocalDate expirationDate) { this.expirationDate = expirationDate; }
 
     @Override
     public boolean equals(Object o) {
