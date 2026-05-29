@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.jc451.team1.DTO.InventoryItem;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,46 +31,12 @@ public class InventoryItemController {
     public String addIngredient(@RequestParam String name,
                                 @RequestParam String quantity,
                                 @RequestParam String expirationdate) {
-        InventoryItem item = new InventoryItem(name,quantity,LocalDate.parse(expirationdate));
+        InventoryItem item = new InventoryItem();
+        item.setIngredientName(name);
+        item.setQuantity(Integer.parseInt(quantity));
+        item.setExpirationDate(LocalDate.parse(expirationdate));
 
         inventoryItems.add(item);
         return "redirect:/inventory";
-    }
-}
-
-// for testing purposes, must be removed
-class InventoryItem {
-    private String name;
-    private String quantity;
-    private LocalDate expirationdate;
-
-    InventoryItem(String name, String quantity, LocalDate expirationdate) {
-        this.name = name;
-        this.quantity = quantity;
-        this.expirationdate = expirationdate;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
-    }
-
-    public LocalDate getExpirationdate() {
-        return expirationdate;
-    }
-
-    public void setExpirationdate(LocalDate expirationdate) {
-        this.expirationdate = expirationdate;
     }
 }

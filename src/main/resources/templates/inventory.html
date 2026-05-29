@@ -21,9 +21,9 @@
 <h2>Ingredients in fridge</h2>
 <ul>
     <li th:each="inventoryitem : ${inventoryitems}">
-        <span th:text="${inventoryitem.name}"></span>
+        <span th:text="${inventoryitem.ingredientName}"></span>
         <span th:text="${inventoryitem.quantity}"></span>
-        <span th:text="${inventoryitem.expirationdate}"></span>
+        <span th:text="${inventoryitem.expirationDate}"></span>
     </li>
 </ul>
 
