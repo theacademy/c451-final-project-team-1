@@ -1,5 +1,7 @@
 package DTO;
 
+import java.util.Objects;
+
 public class Recipe {
     private int recipeId;
     private String title;
@@ -45,5 +47,28 @@ public class Recipe {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipe recipe = (Recipe) o;
+        return recipeId == recipe.recipeId && prepTime == recipe.prepTime && Objects.equals(title, recipe.title) && Objects.equals(instruction, recipe.instruction) && Objects.equals(image, recipe.image);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(recipeId, title, instruction, prepTime, image);
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "recipeId=" + recipeId +
+                ", title='" + title + '\'' +
+                ", instruction='" + instruction + '\'' +
+                ", prepTime=" + prepTime +
+                ", image='" + image + '\'' +
+                '}';
     }
 }

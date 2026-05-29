@@ -1,6 +1,7 @@
 package DTO;
 
 import java.util.List;
+import java.util.Objects;
 
 
 public class User {
@@ -66,5 +67,30 @@ public class User {
 
     public void setRecipe(List<Recipe> recipe) {
         this.recipe = recipe;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userId == user.userId && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(diet, user.diet) && Objects.equals(intolerance, user.intolerance) && Objects.equals(recipe, user.recipe);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, userName, password, email, diet, intolerance, recipe);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", diet=" + diet +
+                ", intolerance=" + intolerance +
+                ", recipe=" + recipe +
+                '}';
     }
 }

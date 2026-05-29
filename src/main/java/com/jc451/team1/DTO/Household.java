@@ -1,6 +1,7 @@
 package DTO;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Household {
     private int householdId;
@@ -39,4 +40,27 @@ public class Household {
     public void setUsers(List<User> users) {
         this.users = users;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Household household = (Household) o;
+        return householdId == household.householdId && Objects.equals(householdName, household.householdName) && Objects.equals(address, household.address) && Objects.equals(users, household.users);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(householdId, householdName, address, users);
+    }
+
+    @Override
+    public String toString() {
+        return "Household{" +
+                "householdId=" + householdId +
+                ", householdName='" + householdName + '\'' +
+                ", address='" + address + '\'' +
+                ", users=" + users +
+                '}';
+    }
+
 }

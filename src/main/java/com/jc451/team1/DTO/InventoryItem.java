@@ -1,6 +1,7 @@
 package DTO;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class InventoryItem {
     private int ingredientId;
@@ -47,5 +48,28 @@ public class InventoryItem {
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        InventoryItem that = (InventoryItem) o;
+        return ingredientId == that.ingredientId && quantity == that.quantity && Objects.equals(ingredientName, that.ingredientName) && Objects.equals(unit, that.unit) && Objects.equals(expirationDate, that.expirationDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ingredientId, ingredientName, unit, quantity, expirationDate);
+    }
+
+    @Override
+    public String toString() {
+        return "InventoryItem{" +
+                "ingredientId=" + ingredientId +
+                ", ingredientName='" + ingredientName + '\'' +
+                ", unit='" + unit + '\'' +
+                ", quantity=" + quantity +
+                ", expirationDate=" + expirationDate +
+                '}';
     }
 }
