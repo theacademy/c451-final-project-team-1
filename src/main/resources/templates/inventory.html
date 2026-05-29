@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>HouseHold Fridge Inventory</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<h1>Household Fridge Inventory</h1>
+
+<h2>Add an ingredient</h2>
+<form action="/inventory/add" method="post">
+    <input type="text" name="name" placeholder="Ingredient">
+    <input type="text" name="quantity" placeholder="Quantity">
+    <input type="date" name="expirationdate" placeholder="ExpirationDate">
+    <button type="submit">Add</button>
+</form>
+
+<h2>Ingredients in fridge</h2>
+<ul>
+    <li th:each="inventoryitem : ${inventoryitems}">
+        <span th:text="${inventoryitem.ingredientName}"></span>
+        <span th:text="${inventoryitem.quantity}"></span>
+        <span th:text="${inventoryitem.expirationDate}"></span>
+    </li>
+</ul>
+
+</body>
+</html>

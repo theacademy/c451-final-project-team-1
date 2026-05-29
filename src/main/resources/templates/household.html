@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Household</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+
+    <h1>Household</h1>
+
+    <div class="card">
+
+        <h3>Create or Join Household</h3>
+
+        <form action="/household/create" method="post">
+
+            <input type="text"
+                   name="householdName"
+                   placeholder="Household Name"
+                   required>
+
+            <button type="submit">
+                Create Household
+            </button>
+
+        </form>
+
+    </div>
+
+    <br>
+
+    <div class="card">
+
+        <h3>Your Household</h3>
+
+        <p th:if="${household == null}">
+            No household created yet.
+        </p>
+
+        <div th:if="${household != null}">
+
+            <h2 th:text="${household.householdName}"></h2>
+
+            <p>
+                Members:
+                <span th:text="${memberCount}"></span>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
