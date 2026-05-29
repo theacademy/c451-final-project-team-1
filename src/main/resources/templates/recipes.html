@@ -27,13 +27,11 @@
 
             <input type="text"
                    name="intolerances"
-                   placeholder="Intolerances Ex: dairy,peanut,gluten"
-                   required>
+                   placeholder="Intolerances Ex: dairy,peanut,gluten">
 
             <input type="text"
                    name="diet"
-                   placeholder="Diets Ex: gluten free,vegan,vegetarian"
-                   required>
+                   placeholder="Diets Ex: gluten free,vegan,vegetarian">
 
             <button type="submit">
                 Search
@@ -62,6 +60,26 @@
 
                 <img th:src="${recipe.image}"
                      width="250">
+
+                <form action="/recipes/save" method="post">
+
+                    <input type="hidden"
+                           name="recipeId"
+                           th:value="${recipe.id}">
+
+                    <input type="hidden"
+                           name="title"
+                           th:value="${recipe.title}">
+
+                    <input type="hidden"
+                           name="image"
+                           th:value="${recipe.image}">
+
+                    <button type="submit">
+                        Save Recipe
+                    </button>
+
+                </form>
 
             </div>
 
