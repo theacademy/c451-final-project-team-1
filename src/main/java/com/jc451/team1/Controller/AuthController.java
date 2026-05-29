@@ -31,8 +31,7 @@ public class AuthController {
             HttpSession session,
             Model model) {
 
-        boolean valid =
-                authService.login(username, password);
+        boolean valid = authService.login(username, password);
 
         if (valid) {
 
