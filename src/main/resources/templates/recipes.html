@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Recipes</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+
+    <h1>Recipes</h1>
+
+    <div class="card">
+
+        <h3>Find Recipes</h3>
+
+        <form action="/recipes/search" method="get">
+
+            <input type="text"
+                   name="ingredients"
+                   placeholder="Ingredients Ex: chicken,tomato,cheese"
+                   required>
+
+            <input type="text"
+                   name="intolerances"
+                   placeholder="Intolerances Ex: dairy,peanut,gluten"
+                   required>
+
+            <input type="text"
+                   name="diet"
+                   placeholder="Diets Ex: gluten free,vegan,vegetarian"
+                   required>
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+    </div>
+
+    <br>
+
+    <div class="card">
+
+        <h3>Recipe Results</h3>
+
+        <div th:if="${recipes == null}">
+            <p>No recipes searched yet.</p>
+        </div>
+
+        <div th:if="${recipes != null}">
+
+            <div th:each="recipe : ${recipes}"
+                 style="margin-bottom: 20px;">
+
+                <h2 th:text="${recipe.title}"></h2>
+
+                <img th:src="${recipe.image}"
+                     width="250">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

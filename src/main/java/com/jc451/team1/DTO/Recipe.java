@@ -1,4 +1,4 @@
-package DTO;
+package com.jc451.team1.DTO;
 
 import java.util.Objects;
 
