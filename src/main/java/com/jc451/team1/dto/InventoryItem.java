@@ -1,7 +1,6 @@
-package com.jc451.team1.DTO;
+package com.jc451.team1.dto;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 
 public class InventoryItem {

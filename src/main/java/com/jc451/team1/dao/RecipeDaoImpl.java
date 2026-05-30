@@ -1,7 +1,7 @@
-package com.jc451.team1.DAO;
+package com.jc451.team1.dao;
 
-import com.jc451.team1.DAO.mappers.RecipeMapper;
-import com.jc451.team1.DTO.Recipe;
+import com.jc451.team1.dao.mappers.RecipeMapper;
+import com.jc451.team1.dto.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;

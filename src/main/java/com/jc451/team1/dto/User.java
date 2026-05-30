@@ -1,4 +1,4 @@
-package com.jc451.team1.DTO;
+package com.jc451.team1.dto;
 
 import java.util.List;
 import java.util.Objects;
