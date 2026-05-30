@@ -6,10 +6,12 @@ import java.util.Objects;
 
 public class InventoryItem {
     private int ingredientId;
+    private int itemId;
     private String ingredientName;
     private String unit;
-    private int quantity;
+    private float quantity;
     private LocalDate expirationDate;
+    private int houseHoldId;
 
     public int getIngredientId() {
         return ingredientId;
@@ -35,17 +37,33 @@ public class InventoryItem {
         this.unit = unit;
     }
 
-    public int getQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 
     public LocalDate getExpirationDate() { return expirationDate; }
 
     public void setExpirationDate(LocalDate expirationDate) { this.expirationDate = expirationDate; }
+
+    public int getHouseHoldId() {
+        return houseHoldId;
+    }
+
+    public void setHouseHoldId(int houseHoldId) {
+        this.houseHoldId = houseHoldId;
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -69,4 +87,5 @@ public class InventoryItem {
                 ", expirationDate=" + expirationDate +
                 '}';
     }
+
 }
