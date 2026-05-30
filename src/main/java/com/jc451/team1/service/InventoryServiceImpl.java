@@ -1,32 +1,84 @@
 package com.jc451.team1.service;
 
-import com.jc451.team1.dto.InventoryItem;
+import com.jc451.team1.DAO.InventoryItemDao;
+import com.jc451.team1.DTO.InventoryItem;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-public class InventoryServiceImpl implements InventoryServiceInterface {
-    @Override
-    public void addInventoryItem(InventoryItem item) {
+@Service
+public class InventoryServiceImpl implements InventoryService {
 
+    @Autowired
+    InventoryItemDao inventoryItemDao;
+
+    //injection
+    public InventoryServiceImpl(InventoryItemDao inventoryItemDao) {
+        this.inventoryItemDao = inventoryItemDao;
     }
 
     @Override
-    public InventoryItem getInventoryItem(int id) {
-        return null;
+    public InventoryItem addInventoryItem(InventoryItem inventoryItem) {
+        if (inventoryItem.getIngredientName() == null || inventoryItem.getIngredientName().isBlank()) {
+            throw new IllegalArgumentException("Ingredient name cannot be blank");
+        }
+        if (inventoryItem.getQuantity() <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than 0");
+        }
+        if (inventoryItem.getExpirationDate() == null) {
+            throw new IllegalArgumentException("Expiration date cannot be null");
+        }
+        if (inventoryItem.getExpirationDate().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Cannot add an expired ingredient");
+        }
+        return inventoryItemDao.addInventoryItem(inventoryItem);
     }
 
     @Override
-    public void updateInventoryItem(InventoryItem item) {
-
+    public List<InventoryItem> getAllInventoryItems() {
+        return inventoryItemDao.getAllInventoryItems();
     }
 
     @Override
-    public List<InventoryItem> getExpiringInventoryItem() {
-        return List.of();
+    public InventoryItem findInventoryItemById(int id) {
+        try {
+            return inventoryItemDao.findInventoryItemById(id);
+        } catch (DataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public void updateInventoryItem(InventoryItem inventoryItem) {
+        if (inventoryItem.getIngredientName() == null || inventoryItem.getIngredientName().isBlank()) {
+            throw new IllegalArgumentException("Ingredient name cannot be blank");
+        }
+        if (inventoryItem.getQuantity() <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than 0");
+        }
+        inventoryItemDao.updateInventoryItem(inventoryItem);
     }
 
     @Override
     public void removeInventoryItem(int id) {
-
+        inventoryItemDao.removeInventoryItem(id);
     }
+
+    @Override
+    public List<InventoryItem> getExpiringItems(int daysThreshold) {
+        LocalDate cutoff = LocalDate.now().plusDays(daysThreshold);
+        List<InventoryItem> expiring = new ArrayList<>();
+        for (InventoryItem item : inventoryItemDao.getAllInventoryItems()) {
+            if (item.getExpirationDate() != null
+                    && item.getExpirationDate().isBefore(cutoff)) {
+                expiring.add(item);
+            }
+        }
+        return expiring;
+    }
+
 }
