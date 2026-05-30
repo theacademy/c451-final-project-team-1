@@ -1,0 +1,89 @@
+package com.jc451.team1.DAO;
+
+import com.jc451.team1.DAO.mappers.InventoryItemMapper;
+import com.jc451.team1.DTO.InventoryItem;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.List;
+
+@Repository
+public class InventoryItemDaoImpl implements InventoryItemDao{
+
+    private final JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public InventoryItemDaoImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    @Transactional
+    public InventoryItem addInventoryItem(InventoryItem inventoryItem) {
+
+        final String INSERT_INVENTORY = "INSERT INTO inventory(quantity, unit, expiration, household_id, item_id) VALUES(?,?,?,?,?)";
+
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(INSERT_INVENTORY, Statement.RETURN_GENERATED_KEYS);
+            ps.setFloat(1, inventoryItem.getQuantity());
+            ps.setString(2, inventoryItem.getUnit());
+            ps.setDate(3, java.sql.Date.valueOf(inventoryItem.getExpirationDate()));
+            ps.setInt(4, inventoryItem.getHouseHoldId());
+            ps.setInt(5, inventoryItem.getItemId());
+            return ps;
+        },keyHolder);
+
+        Number key = keyHolder.getKey();
+        if(key != null){
+            inventoryItem.setIngredientId(key.intValue());
+        }
+        return inventoryItem;
+    }
+
+    @Override
+    public List<InventoryItem> getAllInventoryItems() {
+
+        final String SELECT_ALL_INVENTORY = "SELECT * FROM inventory";
+        return jdbcTemplate.query(SELECT_ALL_INVENTORY, new InventoryItemMapper());
+    }
+
+    @Override
+    public InventoryItem findInventoryItemById(int id) {
+
+        final String SELECT_BY_ID = "SELECT * FROM inventory WHERE id = ?";
+        return jdbcTemplate.queryForObject(SELECT_BY_ID, new InventoryItemMapper(), id);
+    }
+
+    @Override
+    public void updateInventoryItem(InventoryItem inventoryItem) {
+
+        final String UPDATE_INVENTORY = "UPDATE inventory SET quantity = ?, unit = ?, expiration = ?, household_id = ?, item_id = ? WHERE id = ?";
+        jdbcTemplate.update(UPDATE_INVENTORY,
+                inventoryItem.getQuantity(),
+                inventoryItem.getUnit(),
+                java.sql.Date.valueOf(inventoryItem.getExpirationDate()),
+                inventoryItem.getHouseHoldId(),
+                inventoryItem.getItemId(),
+                inventoryItem.getIngredientId());
+    }
+
+    @Override
+    public void removeInventoryItem(int id) {
+
+        final String DELETE_INVENTORY = "DELETE FROM inventory WHERE id = ?";
+        jdbcTemplate.update(DELETE_INVENTORY,id);
+    }
+
+    //add a get item name method by joining two tables
+    public String getItemNameByItemId(int itemId) {
+
+        final String SELECT_NAME_BY_ITEM_ID = "SELECT name FROM items WHERE id = ?";
+        return jdbcTemplate.queryForObject(SELECT_NAME_BY_ITEM_ID, String.class, itemId);
+    }
+}
