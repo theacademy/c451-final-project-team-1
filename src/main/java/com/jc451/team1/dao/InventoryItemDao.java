@@ -1,6 +1,6 @@
-package com.jc451.team1.DAO;
+package com.jc451.team1.dao;
 
-import com.jc451.team1.DTO.InventoryItem;
+import com.jc451.team1.dto.InventoryItem;
 
 import java.util.List;
 

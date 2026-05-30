@@ -1,6 +1,6 @@
-package com.jc451.team1.DAO;
+package com.jc451.team1.dao;
 
-import com.jc451.team1.DTO.User;
+import com.jc451.team1.dto.User;
 
 public interface UserDao {
 

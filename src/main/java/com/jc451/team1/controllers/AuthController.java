@@ -1,4 +1,4 @@
-package com.jc451.team1.Controller;
+package com.jc451.team1.controllers;
 
 import com.jc451.team1.service.AuthService;
 import jakarta.servlet.http.HttpSession;
