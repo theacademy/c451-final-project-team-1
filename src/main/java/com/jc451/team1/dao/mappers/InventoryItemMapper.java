@@ -1,6 +1,6 @@
-package com.jc451.team1.DAO.mappers;
+package com.jc451.team1.dao.mappers;
 
-import com.jc451.team1.DTO.InventoryItem;
+import com.jc451.team1.dto.InventoryItem;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
