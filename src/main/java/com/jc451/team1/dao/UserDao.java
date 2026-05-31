@@ -9,11 +9,13 @@ public interface UserDao {
 
     User getUserById(int id);
 
-    void updateUser(User user);
+    User getUserByUsername(String username);
 
     User authenticate(String username, String password);
 
     void changePassword(int userId, String newPassword);
+
+    void updateUser(User user);
 
     void addIntolerance(User user, int intoleranceId);
 

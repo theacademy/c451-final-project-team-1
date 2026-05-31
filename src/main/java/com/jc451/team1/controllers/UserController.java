@@ -1,6 +1,7 @@
 package com.jc451.team1.controllers;
 
-import com.jc451.team1.service.AuthService;
+import com.jc451.team1.dto.User;
+import com.jc451.team1.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,9 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class AuthController {
+public class UserController {
+
     @Autowired
-    private AuthService authService;
+    private UserService userService;
 
     @GetMapping("/")
     public String home() {
@@ -26,23 +28,19 @@ public class AuthController {
 
     @PostMapping("/login")
     public String login(
-            @RequestParam String username,
-            @RequestParam String password,
+            @RequestParam("username") String username,
+            @RequestParam("password") String password,
             HttpSession session,
             Model model) {
 
-        boolean valid = authService.login(username, password);
+        User user = userService.authenticate(username, password);
 
-        if (valid) {
-
-            session.setAttribute("user", username);
-
+        if (user != null) {
+            session.setAttribute("user", user);
             return "redirect:/homepage";
         }
 
-        model.addAttribute("error",
-                "Invalid username or password");
-
+        model.addAttribute("error", "Invalid username or password");
         return "login";
     }
 
