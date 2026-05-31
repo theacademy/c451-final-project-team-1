@@ -30,17 +30,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByUsername(String username) {
-        return null; // for login
-    }
-
-    @Override
-    public List<User> getUsersPerHousehold(int householdId) { // TODO move this to HouseHoldServiceImpl
-        return List.of();
-    }
-
-    @Override
-    public List<User> getAllUsers() { // TODO move this to HouseHoldServiceImpl
-        return List.of();
+        return userDao.getUserByUsername(username);
     }
 
     @Override
@@ -76,5 +66,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteRecipe(User user, Recipe recipe) {
         userDao.deleteRecipe(user, recipe);
+    }
+
+    @Override
+    public User authenticate(String username, String password) {
+        return userDao.authenticate(username, password);
     }
 }
