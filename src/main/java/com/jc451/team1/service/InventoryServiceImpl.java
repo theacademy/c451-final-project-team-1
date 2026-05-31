@@ -1,7 +1,7 @@
 package com.jc451.team1.service;
 
-import com.jc451.team1.DAO.InventoryItemDao;
-import com.jc451.team1.DTO.InventoryItem;
+import com.jc451.team1.dao.InventoryItemDao;
+import com.jc451.team1.dto.InventoryItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;

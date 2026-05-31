@@ -5,6 +5,8 @@ import java.util.Objects;
 
 public class Household {
     private int householdId;
+
+    private String code;
     private String householdName;
     private String address;
     private List<User> users;
@@ -25,6 +27,14 @@ public class Household {
         this.householdName = householdName;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -42,25 +52,25 @@ public class Household {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Household household = (Household) o;
-        return householdId == household.householdId && Objects.equals(householdName, household.householdName) && Objects.equals(address, household.address) && Objects.equals(users, household.users);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(householdId, householdName, address, users);
-    }
-
-    @Override
     public String toString() {
         return "Household{" +
                 "householdId=" + householdId +
+                ", code='" + code + '\'' +
                 ", householdName='" + householdName + '\'' +
                 ", address='" + address + '\'' +
                 ", users=" + users +
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Household household = (Household) o;
+        return householdId == household.householdId && Objects.equals(code, household.code) && Objects.equals(householdName, household.householdName) && Objects.equals(address, household.address) && Objects.equals(users, household.users);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(householdId, code, householdName, address, users);
+    }
 }
