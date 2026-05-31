@@ -80,7 +80,7 @@ public class InventoryItemDaoImpl implements InventoryItemDao{
         jdbcTemplate.update(DELETE_INVENTORY,id);
     }
 
-    //add a get item name method by joining two tables
+    @Override
     public String getItemNameByItemId(int itemId) {
 
         final String SELECT_NAME_BY_ITEM_ID = "SELECT name FROM items WHERE id = ?";
