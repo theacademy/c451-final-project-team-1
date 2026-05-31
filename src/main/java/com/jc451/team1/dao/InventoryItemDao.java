@@ -15,4 +15,6 @@ public interface InventoryItemDao {
     void updateInventoryItem(InventoryItem inventoryItem);
 
     void removeInventoryItem(int id);
+
+    String getItemNameByItemId(int itemId);
 }
