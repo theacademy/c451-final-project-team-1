@@ -59,21 +59,24 @@
                 <h2 th:text="${recipe.title}"></h2>
 
                 <img th:src="${recipe.image}"
-                     width="250">
+                     width="250" th:alt="${recipe.title}">
+
+                <p th:if="${recipe.prepTime > 0}">
+                    Prep time: <strong th:text="${recipe.prepTime} + ' min'"></strong>
+                </p>
+
+                <div th:if="${recipe.instruction != null}"
+                     th:utext="${recipe.instruction}"
+                     style="font-size: 0.9em; color: #555; margin: 8px 0;">
+                </div>
 
                 <form action="/recipes/save" method="post">
 
-                    <input type="hidden"
-                           name="recipeId"
-                           th:value="${recipe.id}">
+                    <!-- <input type="hidden" name="recipeId" th:value="${recipe.id}"> -->
 
-                    <input type="hidden"
-                           name="title"
-                           th:value="${recipe.title}">
+                    <input type="hidden" name="title" th:value="${recipe.title}">
 
-                    <input type="hidden"
-                           name="image"
-                           th:value="${recipe.image}">
+                    <input type="hidden" name="image" th:value="${recipe.image}">
 
                     <button type="submit">
                         Save Recipe
