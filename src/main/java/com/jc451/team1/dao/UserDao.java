@@ -9,6 +9,8 @@ public interface UserDao {
 
     public User getUserById(int id);
 
+    public User getUserByUsername(String username);
+
     public void updateUser(User user);
 
     public void addIntolerance(User user, String intolerance);

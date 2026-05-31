@@ -8,11 +8,13 @@ import com.jc451.team1.dto.Recipe;
 import com.jc451.team1.dto.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
+@Repository
 public class UserDaoImpl implements UserDao {
 
     private final JdbcTemplate jdbcTemplate;
@@ -74,6 +76,22 @@ public class UserDaoImpl implements UserDao {
         user.setRecipes(jdbcTemplate.query(SELECT_SAVED_RECIPES_BY_USER_ID, new RecipeMapper(), id));
 
         return user;
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        final String SELECT =
+                "SELECT * FROM users WHERE username = ?";
+        try {
+            User user = jdbcTemplate.queryForObject(SELECT, new UserMapper(), username);
+            if (user != null) {
+                // load their full profile the same way as getUserById
+                return getUserById(user.getUserId());
+            }
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
+            return null; // username not found
+        }
+        return null;
     }
 
     @Override
