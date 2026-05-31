@@ -5,21 +5,25 @@ import com.jc451.team1.dto.User;
 
 public interface UserDao {
 
-    public User createUser(User user);
+    User createUser(User user);
 
-    public User getUserById(int id);
+    User getUserById(int id);
 
-    public void updateUser(User user);
+    void updateUser(User user);
 
-    public void addIntolerance(User user, int intoleranceId);
+    User authenticate(String username, String password);
 
-    public void deleteIntolerance(User user, String intolerance);
+    void changePassword(int userId, String newPassword);
 
-    public void addDietaryRestriction(User user, int dietaryRestrictionId);
+    void addIntolerance(User user, int intoleranceId);
 
-    public void deleteDietaryRestriction(User user, String dietaryRestriction);
+    void deleteIntolerance(User user, String intolerance);
 
-    public void addRecipe(User user, Recipe recipe);
+    void addDietaryRestriction(User user, int dietaryRestrictionId);
 
-    public void deleteRecipe(User user, Recipe recipe);
+    void deleteDietaryRestriction(User user, String dietaryRestriction);
+
+    void addRecipe(User user, Recipe recipe);
+
+    void deleteRecipe(User user, Recipe recipe);
 }
