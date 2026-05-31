@@ -7,17 +7,17 @@ import com.jc451.team1.dto.User;
 
 import java.util.List;
 
-interface HouseholdDao {
+public interface HouseholdDao {
 
     Household createHousehold(Household household);
 
-    Household getHousehold(int id);
+    Household getHouseholdById(int id);
 
-    void addUserToHousehold(User user);
+    void addUserToHousehold(int userId, int householdId);
 
-    User removeUserFromHousehold(int userId);
+    void removeUserFromHousehold(int userId, int householdId);
 
-    List<InventoryItem> getInventoryItems();
+    List<InventoryItem> getInventoryItems(int householdId);
 
-    List<User> getAllUsers();
+    List<User> getAllUsers(int householdId);
 }
