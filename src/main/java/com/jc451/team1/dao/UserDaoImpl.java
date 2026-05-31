@@ -89,6 +89,20 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public User authenticate(String username, String password) {
+        final String AUTHENTICATE_USER =
+                "SELECT * FROM users WHERE username = ? AND password = ?";
+        return jdbcTemplate.queryForObject(AUTHENTICATE_USER, new UserMapper(), username, password);
+    }
+
+    @Override
+    public void changePassword(int userId, String newPassword) {
+        final String CHANGE_PASSWORD =
+                "UPDATE users SET password = ? WHERE id = ?";
+        jdbcTemplate.update(CHANGE_PASSWORD, newPassword, userId);
+    }
+
+    @Override
     public void addIntolerance(User user, int intoleranceId) {
         // Get the intolerance name
         final String SELECT_ITEM_INTOLERANCE = "SELECT items.name FROM intolerances " +
