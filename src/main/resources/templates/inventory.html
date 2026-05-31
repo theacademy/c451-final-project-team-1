@@ -12,9 +12,9 @@
 
 <h2>Add an ingredient</h2>
 <form action="/inventory/add" method="post">
-    <input type="text" name="name" placeholder="Ingredient">
-    <input type="text" name="quantity" placeholder="Quantity">
-    <input type="date" name="expirationdate" placeholder="ExpirationDate">
+    <input type="text" name="name" th:value="${ingredients}" placeholder="Ingredient">
+    <input type="text" name="quantity" th:value="${intolerances}" placeholder="Quantity">
+    <input type="date" name="expirationdate" th:value="${diet}" placeholder="ExpirationDate">
     <button type="submit">Add</button>
 </form>
 
