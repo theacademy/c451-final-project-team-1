@@ -25,13 +25,13 @@
                    placeholder="Ingredients Ex: chicken,tomato,cheese"
                    required>
 
-            <input type="text"
-                   name="intolerances"
-                   placeholder="Intolerances Ex: dairy,peanut,gluten">
+            <p th:if="${session.user.dietaryRestrictions != null and !session.user.dietaryRestrictions.isEmpty()}">
+                Diet: <strong th:text="${#strings.listJoin(session.user.dietaryRestrictions, ', ')}"></strong>
+            </p>
 
-            <input type="text"
-                   name="diet"
-                   placeholder="Diets Ex: gluten free,vegan,vegetarian">
+            <p th:if="${session.user.intolerances != null and !session.user.intolerances.isEmpty()}">
+                Intolerances: <strong th:text="${#strings.listJoin(session.user.intolerances, ', ')}"></strong>
+            </p>
 
             <button type="submit">
                 Search
