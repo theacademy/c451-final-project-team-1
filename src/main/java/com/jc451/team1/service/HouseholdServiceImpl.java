@@ -19,13 +19,13 @@ public class HouseholdServiceImpl implements HouseholdService {
 
     @Override
     public void createHousehold(Household household) {
-        // Verif
+        // Verify
         householdDao.createHousehold(household);
     }
 
     @Override
     public Household getHousehold(int id) {
-        return householdDao.getHousehold(id);
+        return householdDao.getHouseholdById(id);
     }
 
     @Override

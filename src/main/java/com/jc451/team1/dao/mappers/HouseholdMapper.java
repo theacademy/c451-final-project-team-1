@@ -6,9 +6,9 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class HouseholdMapper implements RowMapper {
+public class HouseholdMapper implements RowMapper<Household> {
     @Override
-    public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+    public Household mapRow(ResultSet rs, int rowNum) throws SQLException {
         Household household = new Household();
 
         household.setHouseholdId(rs.getInt("id"));

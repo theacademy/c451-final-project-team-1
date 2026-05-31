@@ -79,13 +79,17 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void updateUser(User user) {
         final String UPDATE_USER = "UPDATE users " +
-                "SET username = ?, password = ?, email = ?" +
+                "SET username = ?, password = ?, email = ? " +
                 "WHERE id = ?";
         jdbcTemplate.update(UPDATE_USER, user.getUserName(), user.getPassword(), user.getEmail(), user.getIntolerances());
     }
 
     @Override
     public void addIntolerance(User user, String intolerance) {
+        // Add intolerance to the user
+        user.getIntolerances().add(intolerance);
+
+        // Insert user's intolerance to the intolerance table
 
     }
 
@@ -104,6 +108,10 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void addDietaryRestriction(User user, String dietaryRestriction) {
+        // Add dietary restriction to the user
+        user.getDietaryRestrictions().add(dietaryRestriction);
+
+        // Insert the user's dietary restriction to the table
 
     }
 

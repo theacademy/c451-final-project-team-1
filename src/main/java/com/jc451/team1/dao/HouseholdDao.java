@@ -11,7 +11,7 @@ public interface HouseholdDao {
 
     Household createHousehold(Household household);
 
-    Household getHousehold(int id);
+    Household getHouseholdById(int id);
 
     void addUserToHousehold(int userId, int householdId);
 
@@ -19,5 +19,5 @@ public interface HouseholdDao {
 
     List<InventoryItem> getInventoryItems(int householdId);
 
-    List<User> getAllUsers();
+    List<User> getAllUsers(int householdId);
 }
