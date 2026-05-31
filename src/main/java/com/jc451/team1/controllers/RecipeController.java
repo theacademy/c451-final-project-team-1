@@ -2,6 +2,7 @@ package com.jc451.team1.controllers;
 
 import com.jc451.team1.client.SpoonacularClient;
 import com.jc451.team1.dto.Recipe;
+import com.jc451.team1.dto.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,11 +31,21 @@ public class RecipeController {
 
     // GET /recipes/search — call Spoonacular, show results in recipes.html
     @GetMapping("/recipes/search")
-    public String searchRecipes(@RequestParam(required = false) String ingredients,
-                                @RequestParam(required = false) String intolerances,
-                                @RequestParam(required = false) String diet,
+    public String searchRecipes(@RequestParam("ingredients") String ingredients,
                                 HttpSession session,
                                 Model model) {
+
+        User user = (User) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+
+        // build diet and intolerance strings from the user object
+        String diet = user.getDietaryRestrictions() != null
+                ? String.join(",", user.getDietaryRestrictions())
+                : "";
+
+        String intolerances = user.getIntolerances() != null
+                ? String.join(",", user.getIntolerances())
+                : "";
 
         // call the API
         List<Map<String, Object>> apiResults =
@@ -78,8 +89,8 @@ public class RecipeController {
 
         // keep the search terms populated in the form
         model.addAttribute("ingredients", ingredients);
-        model.addAttribute("intolerances", intolerances);
-        model.addAttribute("diet", diet);
+        //model.addAttribute("intolerances", intolerances);
+        //model.addAttribute("diet", diet);
 
         return "recipes";
     }
