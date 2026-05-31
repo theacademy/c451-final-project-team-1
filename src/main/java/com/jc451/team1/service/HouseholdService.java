@@ -6,10 +6,12 @@ import com.jc451.team1.dto.User;
 
 import java.util.List;
 
-public interface HouseholdServiceInterface {
+public interface HouseholdService {
     void createHousehold(Household household);
 
     Household getHousehold(int id);
+
+    Household getHouseholdFromUser(int userId);
 
     void addUserToHousehold(int userId, int householdId);
 

@@ -18,17 +18,17 @@ public class HouseholdDaoImpl implements HouseholdDao {
     }
 
     @Override
-    public void addUserToHousehold(User user) {
+    public void addUserToHousehold(int userId, int householdId) {
 
     }
 
     @Override
-    public User removeUserFromHousehold(int userId) {
-        return null;
+    public void removeUserFromHousehold(int userId, int householdId) {
+
     }
 
     @Override
-    public List<InventoryItem> getInventoryItems() {
+    public List<InventoryItem> getInventoryItems(int householdId) {
         return List.of();
     }
 
