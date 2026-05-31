@@ -1,7 +1,5 @@
 package com.jc451.team1.dao;
 
-import com.jc451.team1.dao.InventoryItemDao;
-import com.jc451.team1.dao.InventoryItemDaoImpl;
 import com.jc451.team1.dto.InventoryItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,7 +33,7 @@ public class InventoryItemDaoImplTests {
         item.setUnit("Liters");
         item.setExpirationDate(LocalDate.of(2026, 6, 30));
         item.setHouseHoldId(1);
-        item.setItemId(1); 
+        item.setId(1);
 
         inventoryItemDao.addInventoryItem(item);
         List<InventoryItem> newList = inventoryItemDao.getAllInventoryItems();
@@ -70,7 +68,7 @@ public class InventoryItemDaoImplTests {
         item.setUnit("Grams");
         item.setExpirationDate(LocalDate.of(2026, 12, 25));
         item.setHouseHoldId(1);
-        item.setItemId(2);
+        item.setId(2);
 
         inventoryItemDao.updateInventoryItem(item);
         List<InventoryItem> newList = inventoryItemDao.getAllInventoryItems();

@@ -15,7 +15,7 @@ public interface HouseholdService {
 
     boolean addUserToHousehold(int userId, int householdId);
 
-    void removeUserFromHousehold(int userId, int householdId);
+    boolean removeUserFromHousehold(int userId, int householdId);
 
     List<InventoryItem> getInventoryItems(int householdId);
 

@@ -19,17 +19,8 @@ public class HouseholdServiceImpl implements HouseholdService {
 
     @Override
     public Household createHousehold(Household household) {
-        boolean error = false;
-
-        if (household.getCode().length() != 8) {
-            household.setCode("Invalid code format.");
-            error = true;
-        }
-
-        if (household.getHouseholdName().isBlank()) {
-            household.setHouseholdName("Invalid name format.");
-            error = true;
-        }
+        boolean error = household.getCode().length() != 8
+                || household.getHouseholdName().isBlank();
 
         if (error) {
             household.setHouseholdId(-1);
@@ -52,7 +43,7 @@ public class HouseholdServiceImpl implements HouseholdService {
 
     @Override
     public boolean addUserToHousehold(int userId, int householdId) {
-        if (householdDao.getHouseholdById(householdId) == null) {
+        if (getHousehold(householdId) == null) {
             return false;
         }
 
@@ -61,8 +52,15 @@ public class HouseholdServiceImpl implements HouseholdService {
     }
 
     @Override
-    public void removeUserFromHousehold(int userId, int householdId) {
+    public boolean removeUserFromHousehold(int userId, int householdId) {
+        if (getHousehold(householdId) == null) return false;
+
+        if (getMembers(householdId).stream()
+                .noneMatch(user -> user.getUserId() == userId))
+            return false;
+
         householdDao.removeUserFromHousehold(userId, householdId);
+        return true;
     }
 
     @Override
