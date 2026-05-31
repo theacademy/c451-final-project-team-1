@@ -4,7 +4,7 @@ import com.jc451.team1.dto.User;
 
 import java.util.List;
 
-public interface UserServiceInterface {
+public interface UserService {
     void createNewUser(User user);
 
     User getUser(int id);
