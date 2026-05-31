@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Household {
-    private int householdId;
 
+    private int householdId;
     private String code;
     private String householdName;
     private String address;
