@@ -10,17 +10,23 @@ import java.util.List;
 
 public class HouseholdServiceImpl implements HouseholdService {
 
-    private HouseholdDao householdDao;
+    private final HouseholdDao householdDao;
 
     @Autowired
-    public void setHouseholdDao(HouseholdDao householdDao) {
+    public HouseholdServiceImpl(HouseholdDao householdDao) {
         this.householdDao = householdDao;
     }
 
     @Override
-    public void createHousehold(Household household) {
-        // Verify
-        householdDao.createHousehold(household);
+    public Household createHousehold(Household household) {
+        boolean error = false;
+
+        if (household.getCode().length() != 8) {
+            household.setCode("Invalid code format.");
+            error = true;
+        }
+
+        return error? household : householdDao.createHousehold(household);
     }
 
     @Override
@@ -35,12 +41,12 @@ public class HouseholdServiceImpl implements HouseholdService {
 
     @Override
     public void addUserToHousehold(int userId, int householdId) {
-        //householdDao.addUserToHousehold();
+        householdDao.addUserToHousehold(userId, householdId);
     }
 
     @Override
     public void removeUserFromHousehold(int userId, int householdId) {
-        //householdDao.removeUserFromHousehold()
+        householdDao.removeUserFromHousehold(userId, householdId);
     }
 
     @Override

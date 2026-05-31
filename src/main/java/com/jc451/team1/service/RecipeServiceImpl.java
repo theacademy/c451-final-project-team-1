@@ -10,9 +10,9 @@ import java.util.List;
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
-    @Autowired
-    RecipeDao recipeDao;
+    private final RecipeDao recipeDao;
 
+    @Autowired
     public RecipeServiceImpl(RecipeDao recipeDao) {
         this.recipeDao = recipeDao;
     }

@@ -13,10 +13,9 @@ import java.util.List;
 @Service
 public class InventoryServiceImpl implements InventoryService {
 
-    @Autowired
-    InventoryItemDao inventoryItemDao;
+    private final InventoryItemDao inventoryItemDao;
 
-    //injection
+    @Autowired
     public InventoryServiceImpl(InventoryItemDao inventoryItemDao) {
         this.inventoryItemDao = inventoryItemDao;
     }
