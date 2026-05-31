@@ -4,7 +4,7 @@ import com.jc451.team1.dto.User;
 
 import java.util.List;
 
-public class UserServiceImpl implements UserServiceInterface {
+public class UserServiceImpl implements UserService {
     @Override
     public void createNewUser(User user) {
 
