@@ -26,7 +26,18 @@ public class HouseholdServiceImpl implements HouseholdService {
             error = true;
         }
 
-        return error? household : householdDao.createHousehold(household);
+        if (household.getHouseholdName().isBlank()) {
+            household.setHouseholdName("Invalid name format.");
+            error = true;
+        }
+
+        if (error) {
+            household.setHouseholdId(-1);
+        } else {
+            household = householdDao.createHousehold(household);
+        }
+
+        return household;
     }
 
     @Override
@@ -40,8 +51,13 @@ public class HouseholdServiceImpl implements HouseholdService {
     }
 
     @Override
-    public void addUserToHousehold(int userId, int householdId) {
+    public boolean addUserToHousehold(int userId, int householdId) {
+        if (householdDao.getHouseholdById(householdId) == null) {
+            return false;
+        }
+
         householdDao.addUserToHousehold(userId, householdId);
+        return true;
     }
 
     @Override
@@ -55,7 +71,7 @@ public class HouseholdServiceImpl implements HouseholdService {
     }
 
     @Override
-    public List<User> getAllUsers(int householdId) {
-        return List.of();
+    public List<User> getMembers(int householdId) {
+        return householdDao.getAllUsers(householdId);
     }
 }
