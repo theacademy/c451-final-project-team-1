@@ -1,6 +1,6 @@
 package com.jc451.team1.service;
 
-import com.jc451.team1.DTO.Recipe;
+import com.jc451.team1.dto.Recipe;
 
 import java.util.List;
 
