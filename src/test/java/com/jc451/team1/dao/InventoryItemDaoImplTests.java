@@ -1,8 +1,8 @@
 package com.jc451.team1.dao;
 
-import com.jc451.team1.DAO.InventoryItemDao;
-import com.jc451.team1.DAO.InventoryItemDaoImpl;
-import com.jc451.team1.DTO.InventoryItem;
+import com.jc451.team1.dao.InventoryItemDao;
+import com.jc451.team1.dao.InventoryItemDaoImpl;
+import com.jc451.team1.dto.InventoryItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +35,12 @@ public class InventoryItemDaoImplTests {
         item.setUnit("Liters");
         item.setExpirationDate(LocalDate.of(2026, 6, 30));
         item.setHouseHoldId(1);
-        item.setItemId(1); // Assuming item identity references an existing master item record
+        item.setItemId(1); 
 
         inventoryItemDao.addInventoryItem(item);
         List<InventoryItem> newList = inventoryItemDao.getAllInventoryItems();
 
         assertNotNull(newList);
-        // Assuming database starts with a fixed number (e.g., 14), expect count to increment by 1
         assertEquals(15, newList.size());
     }
 
@@ -50,7 +49,6 @@ public class InventoryItemDaoImplTests {
     public void getAllInventoryItemsTest() {
         List<InventoryItem> newList = inventoryItemDao.getAllInventoryItems();
         assertNotNull(newList);
-        // Assuming your seeded database state contains exactly 14 records initially
         assertEquals(14, newList.size());
     }
 
@@ -59,8 +57,8 @@ public class InventoryItemDaoImplTests {
     public void findInventoryItemById5Test() {
         InventoryItem item = inventoryItemDao.findInventoryItemById(5);
         assertNotNull(item);
-        // Validate against whatever quantity or unit value is pre-seeded at index ID 5
-        assertEquals(5.0f, item.getQuantity());
+        assertEquals(0.50f, item.getQuantity());
+        assertEquals("kg", item.getUnit());
     }
 
     @Test
@@ -100,10 +98,9 @@ public class InventoryItemDaoImplTests {
     @Test
     @DisplayName("Verify Item Name Retrieval Separately")
     public void getItemNameByItemIdTest() {
-        // Asserting using your preferred "slow way" separate helper lookup query
-        // Checks that item relationship reference #1 maps properly to its name string descriptor
+
         String itemName = inventoryItemDao.getItemNameByItemId(1);
         assertNotNull(itemName);
-        assertEquals("Milk", itemName); // Update string literal to match your seed records
+        assertEquals("Milk", itemName);
     }
 }

@@ -1,7 +1,7 @@
 package com.jc451.team1.service;
 
-import com.jc451.team1.DAO.RecipeDao;
-import com.jc451.team1.DTO.Recipe;
+import com.jc451.team1.dao.RecipeDao;
+import com.jc451.team1.dto.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
