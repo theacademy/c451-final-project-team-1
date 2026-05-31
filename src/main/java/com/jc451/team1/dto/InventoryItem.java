@@ -4,13 +4,13 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class InventoryItem {
-    private int ingredientId;
     private int itemId;
-    private String ingredientName;
-    private String unit;
-    private float quantity;
-    private LocalDate expirationDate;
     private int houseHoldId;
+    private int ingredientId;
+    private String ingredientName;
+    private float quantity;
+    private String unit;
+    private LocalDate expirationDate;
 
     public int getIngredientId() {
         return ingredientId;
