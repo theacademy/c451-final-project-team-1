@@ -11,11 +11,11 @@ public interface UserDao {
 
     public void updateUser(User user);
 
-    public void addIntolerance(User user, String intolerance);
+    public void addIntolerance(User user, int intoleranceId);
 
     public void deleteIntolerance(User user, String intolerance);
 
-    public void addDietaryRestriction(User user, String dietaryRestriction);
+    public void addDietaryRestriction(User user, int dietaryRestrictionId);
 
     public void deleteDietaryRestriction(User user, String dietaryRestriction);
 
