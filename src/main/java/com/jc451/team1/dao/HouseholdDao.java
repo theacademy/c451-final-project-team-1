@@ -13,6 +13,8 @@ public interface HouseholdDao {
 
     Household getHouseholdById(int id);
 
+    Household getHouseholdByCode(String householdCode);
+
     void addUserToHousehold(int userId, int householdId);
 
     void removeUserFromHousehold(int userId, int householdId);
