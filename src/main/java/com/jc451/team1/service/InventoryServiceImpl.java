@@ -21,20 +21,15 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public InventoryItem addInventoryItem(InventoryItem inventoryItem) {
-        if (inventoryItem.getIngredientName() == null || inventoryItem.getIngredientName().isBlank()) {
-            throw new IllegalArgumentException("Ingredient name cannot be blank");
-        }
-        if (inventoryItem.getQuantity() <= 0) {
-            throw new IllegalArgumentException("Quantity must be greater than 0");
-        }
-        if (inventoryItem.getExpirationDate() == null) {
-            throw new IllegalArgumentException("Expiration date cannot be null");
-        }
-        if (inventoryItem.getExpirationDate().isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Cannot add an expired ingredient");
-        }
-        return inventoryItemDao.addInventoryItem(inventoryItem);
+    public InventoryItem addInventoryItem(InventoryItem item) {
+        boolean error = item.getIngredientName().isBlank()
+                || item.getQuantity() <= 0
+                || item.getExpirationDate().isBefore(LocalDate.now());
+
+        if (error) item.setId(-1);
+        else item = inventoryItemDao.addInventoryItem(item);
+
+        return item;
     }
 
     @Override
@@ -52,14 +47,17 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public void updateInventoryItem(InventoryItem inventoryItem) {
-        if (inventoryItem.getIngredientName() == null || inventoryItem.getIngredientName().isBlank()) {
-            throw new IllegalArgumentException("Ingredient name cannot be blank");
-        }
-        if (inventoryItem.getQuantity() <= 0) {
-            throw new IllegalArgumentException("Quantity must be greater than 0");
-        }
-        inventoryItemDao.updateInventoryItem(inventoryItem);
+    public boolean updateInventoryItem(InventoryItem item) {
+        InventoryItem inventoryItem =
+                inventoryItemDao.findInventoryItemById(item.getId());
+        if (inventoryItem == null) return false;
+
+        boolean error = item.getIngredientName().isBlank()
+                || item.getQuantity() <= 0;
+        if (error) return false;
+
+        inventoryItemDao.updateInventoryItem(item);
+        return true;
     }
 
     @Override

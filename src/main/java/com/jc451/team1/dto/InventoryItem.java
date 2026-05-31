@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class InventoryItem {
-    private int itemId;
+    private int id;
     private int houseHoldId;
     private int ingredientId;
     private String ingredientName;
@@ -56,12 +56,12 @@ public class InventoryItem {
         this.houseHoldId = houseHoldId;
     }
 
-    public int getItemId() {
-        return itemId;
+    public int getId() {
+        return id;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
