@@ -1,6 +1,7 @@
 package com.jc451.team1.dto;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -9,9 +10,9 @@ public class User {
     private String userName;
     private String password;
     private String email;
-    private List<String> diet;
-    private List<String> intolerance;
-    private List<Recipe> recipe;
+    private List<String> diets;
+    private List<String> intolerances;
+    private List<Recipe> recipes;
 
     public int getUserId() {
         return userId;
@@ -45,40 +46,40 @@ public class User {
         this.email = email;
     }
 
-    public List<String> getDietaryRestriction() {
-        return diet;
+    public List<String> getDietaryRestrictions() {
+        return diets;
     }
 
-    public void setDietaryRestriction(List<String> dietaryRestriction) {
-        this.diet = dietaryRestriction;
+    public void setDietaryRestrictions(List<String> dietaryRestriction) {
+        this.diets = dietaryRestriction;
     }
 
-    public List<String> getIntolerance() {
-        return intolerance;
+    public List<String> getIntolerances() {
+        return intolerances;
     }
 
-    public void setIntolerance(List<String> intolerance) {
-        this.intolerance = intolerance;
+    public void setIntolerances(List<String> intolerance) {
+        this.intolerances = intolerance;
     }
 
-    public List<Recipe> getRecipe() {
-        return recipe;
+    public List<Recipe> getRecipes() {
+        return recipes;
     }
 
-    public void setRecipe(List<Recipe> recipe) {
-        this.recipe = recipe;
+    public void setRecipes(List<Recipe> recipes) {
+        this.recipes = recipes;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId == user.userId && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(diet, user.diet) && Objects.equals(intolerance, user.intolerance) && Objects.equals(recipe, user.recipe);
+        return userId == user.userId && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(diets, user.diets) && Objects.equals(intolerances, user.intolerances) && Objects.equals(recipes, user.recipes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, userName, password, email, diet, intolerance, recipe);
+        return Objects.hash(userId, userName, password, email, diets, intolerances, recipes);
     }
 
     @Override
@@ -88,9 +89,9 @@ public class User {
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", diet=" + diet +
-                ", intolerance=" + intolerance +
-                ", recipe=" + recipe +
+                ", diet=" + diets +
+                ", intolerance=" + intolerances +
+                ", recipe=" + recipes +
                 '}';
     }
 }
