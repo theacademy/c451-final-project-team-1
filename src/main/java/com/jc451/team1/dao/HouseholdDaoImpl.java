@@ -58,6 +58,22 @@ public class HouseholdDaoImpl implements HouseholdDao {
     }
 
     @Override
+    public Household getHouseholdByCode(String householdCode) {
+        final String SELECT_HOUSEHOLD_BY_CODE = "SELECT * FROM households WHERE code = ?";
+
+        Household household = jdbcTemplate.queryForObject(SELECT_HOUSEHOLD_BY_CODE, new HouseholdMapper(), householdCode);
+
+        if (household == null){
+            return null;
+        }
+
+        // If the household exists, get its users
+        household.setUsers(this.getAllUsers(household.getHouseholdId()));
+
+        return household;
+    }
+
+    @Override
     public void addUserToHousehold(int userId, int householdId) {
         final String INSERT_HOUSEHOLD = "INSERT INTO household_memberships(user_id, household_id) " +
                 "VALUES(?, ?)";
