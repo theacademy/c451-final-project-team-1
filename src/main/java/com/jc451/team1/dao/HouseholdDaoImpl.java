@@ -1,8 +1,8 @@
-package com.jc451.team1.DAO;
+package com.jc451.team1.dao;
 
-import com.jc451.team1.DTO.Household;
-import com.jc451.team1.DTO.InventoryItem;
-import com.jc451.team1.DTO.User;
+import com.jc451.team1.dto.Household;
+import com.jc451.team1.dto.InventoryItem;
+import com.jc451.team1.dto.User;
 
 import java.util.List;
 
