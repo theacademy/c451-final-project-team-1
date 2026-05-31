@@ -45,11 +45,15 @@ public class UserController {
     }
 
     @GetMapping("/homepage")
-    public String homepage(HttpSession session) {
+    public String homepage(HttpSession session, Model model) {
 
         if (session.getAttribute("user") == null) {
             return "redirect:/login";
         }
+
+        // load all available diets and intolerances for the dropdowns
+        model.addAttribute("allDiets", userService.getAllDiets());
+        model.addAttribute("allIntolerances", userService.getAllIntolerances());
 
         return "homepage";
     }
@@ -60,5 +64,49 @@ public class UserController {
         session.invalidate();
 
         return "redirect:/login";
+    }
+
+    @PostMapping("/homepage/addIntolerance")
+    public String addIntolerance(@RequestParam("intoleranceId") int intoleranceId,
+                                 HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+
+        userService.addIntolerance(user, intoleranceId);
+        session.setAttribute("user", user); // update session with new intolerance
+        return "redirect:/homepage";
+    }
+
+    @PostMapping("/homepage/removeIntolerance")
+    public String removeIntolerance(@RequestParam("intolerance") String intolerance,
+                                    HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+
+        userService.deleteIntolerance(user, intolerance);
+        session.setAttribute("user", user);
+        return "redirect:/homepage";
+    }
+
+    @PostMapping("/homepage/addDiet")
+    public String addDiet(@RequestParam("dietId") int dietId,
+                          HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+
+        userService.addDietaryRestriction(user, dietId);
+        session.setAttribute("user", user);
+        return "redirect:/homepage";
+    }
+
+    @PostMapping("/homepage/removeDiet")
+    public String removeDiet(@RequestParam("diet") String diet,
+                             HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+
+        userService.deleteDietaryRestriction(user, diet);
+        session.setAttribute("user", user);
+        return "redirect:/homepage";
     }
 }
