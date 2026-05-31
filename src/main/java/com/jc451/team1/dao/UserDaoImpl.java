@@ -61,12 +61,12 @@ public class UserDaoImpl implements UserDao {
         }
 
         // Now get their dietary restriction list, intolerances list, and recipes list
-        final String SELECT_USER_DIETARY_RESTRICTIONS_BY_ID = "SELECT `diets.name` FROM users " +
+        final String SELECT_USER_DIETARY_RESTRICTIONS_BY_ID = "SELECT diets.name FROM users " +
                 "JOIN dietary_restrictions ON dietary_restrictions.user_id = ? " +
                 "JOIN diets ON dietary_restrictions.diet_id = diets.id";
         user.setDietaryRestrictions(jdbcTemplate.query(SELECT_USER_DIETARY_RESTRICTIONS_BY_ID, new DietsMapper(), id));
 
-        final String SELECT_USER_INTOLERANCE_RESTRICTIONS_BY_ID = "SELECT `items.name` FROM users " +
+        final String SELECT_USER_INTOLERANCE_RESTRICTIONS_BY_ID = "SELECT items.name FROM users " +
                 "JOIN intolerances ON intolerances.user_id = ? " +
                 "JOIN items ON intolerances.item_id = items.id";
         user.setIntolerances(jdbcTemplate.query(SELECT_USER_INTOLERANCE_RESTRICTIONS_BY_ID, new IntoleranceMapper(), id));
@@ -81,6 +81,22 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public User getUserByUsername(String username) { //keeping the method but wont be using for authenfication, might find a usecase for this
+        final String SELECT =
+                "SELECT * FROM users WHERE username = ?";
+        try {
+            User user = jdbcTemplate.queryForObject(SELECT, new UserMapper(), username);
+            if (user != null) {
+                // load their full profile the same way as getUserById
+                return getUserById(user.getUserId());
+            }
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
+            return null; // username not found
+        }
+        return null;
+    }
+
+    @Override
     public void updateUser(User user) {
         final String UPDATE_USER = "UPDATE users " +
                 "SET username = ?, password = ?, email = ? " +
@@ -92,7 +108,16 @@ public class UserDaoImpl implements UserDao {
     public User authenticate(String username, String password) {
         final String AUTHENTICATE_USER =
                 "SELECT * FROM users WHERE username = ? AND password = ?";
-        return jdbcTemplate.queryForObject(AUTHENTICATE_USER, new UserMapper(), username, password);
+        try {
+            User user = jdbcTemplate.queryForObject(AUTHENTICATE_USER, new UserMapper(), username, password);
+            if (user != null) {
+                // load their full profile the same way as getUserById
+                return getUserById(user.getUserId());
+            }
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
+            return null; // username not found
+        }
+        return null;
     }
 
     @Override

@@ -3,18 +3,12 @@ package com.jc451.team1.service;
 import com.jc451.team1.dto.Recipe;
 import com.jc451.team1.dto.User;
 
-import java.util.List;
-
 public interface UserService {
     User createUser(User user);
 
     User getUserById(int id);
 
-    User getUserByUsername(String username); // for login
-
-    List<User> getUsersPerHousehold(int householdId);
-
-    List<User> getAllUsers();
+    User getUserByUsername(String username);
 
     void updateUser(User user);
 
@@ -29,4 +23,6 @@ public interface UserService {
     void addRecipe(User user, Recipe recipe);
 
     void deleteRecipe(User user, Recipe recipe);
+
+    User authenticate(String username, String password);
 }
