@@ -13,11 +13,11 @@ public interface HouseholdService {
 
     Household getHouseholdFromUser(int userId);
 
-    void addUserToHousehold(int userId, int householdId);
+    boolean addUserToHousehold(int userId, int householdId);
 
     void removeUserFromHousehold(int userId, int householdId);
 
     List<InventoryItem> getInventoryItems(int householdId);
 
-    List<User> getAllUsers(int householdId);
+    List<User> getMembers(int householdId);
 }
