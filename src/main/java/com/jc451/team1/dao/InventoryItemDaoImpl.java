@@ -35,7 +35,7 @@ public class InventoryItemDaoImpl implements InventoryItemDao{
             ps.setString(2, inventoryItem.getUnit());
             ps.setDate(3, java.sql.Date.valueOf(inventoryItem.getExpirationDate()));
             ps.setInt(4, inventoryItem.getHouseHoldId());
-            ps.setInt(5, inventoryItem.getItemId());
+            ps.setInt(5, inventoryItem.getId());
             return ps;
         },keyHolder);
 
@@ -69,7 +69,7 @@ public class InventoryItemDaoImpl implements InventoryItemDao{
                 inventoryItem.getUnit(),
                 java.sql.Date.valueOf(inventoryItem.getExpirationDate()),
                 inventoryItem.getHouseHoldId(),
-                inventoryItem.getItemId(),
+                inventoryItem.getId(),
                 inventoryItem.getIngredientId());
     }
 

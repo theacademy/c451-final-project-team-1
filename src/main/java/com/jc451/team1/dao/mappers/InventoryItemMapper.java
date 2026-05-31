@@ -12,7 +12,7 @@ public class InventoryItemMapper implements RowMapper<InventoryItem> {
     public InventoryItem mapRow(ResultSet rs, int rowNum) throws SQLException{
 
         InventoryItem inventoryItem = new InventoryItem();
-        inventoryItem.setItemId(rs.getInt("id"));
+        inventoryItem.setId(rs.getInt("id"));
         inventoryItem.setHouseHoldId(rs.getInt("household_id"));
         inventoryItem.setIngredientId(rs.getInt("item_id"));
         inventoryItem.setIngredientName(rs.getString("ingredient_name"));

@@ -23,6 +23,11 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public void unsaveRecipe(int userId, int recipeId) {
+        recipeDao.removeSavedRecipe(userId,recipeId);
+    }
+
+    @Override
     public Recipe findRecipeById(int id) {
         try {
             return recipeDao.findRecipeById(id);
@@ -34,10 +39,5 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<Recipe> getSavedRecipesByUserId(int userId) {
         return recipeDao.getSavedRecipesByUserId(userId);
-    }
-
-    @Override
-    public void removeSavedRecipe(int userId, int recipeId) {
-        recipeDao.removeSavedRecipe(userId,recipeId);
     }
 }
