@@ -3,6 +3,9 @@ package com.jc451.team1.service;
 import com.jc451.team1.dto.Recipe;
 import com.jc451.team1.dto.User;
 
+import java.util.List;
+import java.util.Map;
+
 public interface UserService {
     User createUser(User user);
 
@@ -25,4 +28,8 @@ public interface UserService {
     void deleteRecipe(User user, Recipe recipe);
 
     User authenticate(String username, String password);
+
+    List<Map<String, Object>> getAllDiets();
+
+    List<Map<String, Object>> getAllIntolerances();
 }
