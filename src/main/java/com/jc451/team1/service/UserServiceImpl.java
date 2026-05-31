@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -71,5 +72,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User authenticate(String username, String password) {
         return userDao.authenticate(username, password);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllDiets() {
+        return userDao.getAllDiets();
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllIntolerances() {
+        return userDao.getAllIntolerances();
     }
 }

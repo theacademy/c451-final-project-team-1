@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -61,20 +63,20 @@ public class UserDaoImpl implements UserDao {
         }
 
         // Now get their dietary restriction list, intolerances list, and recipes list
-        final String SELECT_USER_DIETARY_RESTRICTIONS_BY_ID = "SELECT diets.name FROM users " +
-                "JOIN dietary_restrictions ON dietary_restrictions.user_id = ? " +
-                "JOIN diets ON dietary_restrictions.diet_id = diets.id";
+        final String SELECT_USER_DIETARY_RESTRICTIONS_BY_ID = "SELECT diets.name FROM dietary_restrictions " +
+                "JOIN diets ON dietary_restrictions.diet_id = diets.id " +
+                "WHERE dietary_restrictions.user_id = ?";
         user.setDietaryRestrictions(jdbcTemplate.query(SELECT_USER_DIETARY_RESTRICTIONS_BY_ID, new DietsMapper(), id));
 
-        final String SELECT_USER_INTOLERANCE_RESTRICTIONS_BY_ID = "SELECT items.name FROM users " +
-                "JOIN intolerances ON intolerances.user_id = ? " +
-                "JOIN items ON intolerances.item_id = items.id";
+        final String SELECT_USER_INTOLERANCE_RESTRICTIONS_BY_ID = "SELECT items.name FROM intolerances " +
+                "JOIN items ON intolerances.item_id = items.id " +
+                "WHERE intolerances.user_id = ?";
         user.setIntolerances(jdbcTemplate.query(SELECT_USER_INTOLERANCE_RESTRICTIONS_BY_ID, new IntoleranceMapper(), id));
 
         // For Recipes, call its respective mapper
-        final String SELECT_SAVED_RECIPES_BY_USER_ID = "SELECT * FROM users " +
-                "JOIN saved_recipes ON saved_recipes.user_id = ? " +
-                "JOIN recipes ON recipes.id = saved_recipes.recipe_id";
+        final String SELECT_SAVED_RECIPES_BY_USER_ID = "SELECT recipes.* FROM saved_recipes " +
+                "JOIN recipes ON saved_recipes.recipe_id = recipes.id " +
+                "WHERE saved_recipes.user_id = ?";
         user.setRecipes(jdbcTemplate.query(SELECT_SAVED_RECIPES_BY_USER_ID, new RecipeMapper(), id));
 
         return user;
@@ -130,10 +132,14 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void addIntolerance(User user, int intoleranceId) {
         // Get the intolerance name
+        /*
         final String SELECT_ITEM_INTOLERANCE = "SELECT items.name FROM intolerances " +
                 "JOIN items ON intolerances.item_id = items.id " +
                 "WHERE item_id = ?";
         String intolerance = jdbcTemplate.queryForObject(SELECT_ITEM_INTOLERANCE, new IntoleranceMapper(), intoleranceId);
+         */
+        final String SELECT_ITEM_NAME = "SELECT name FROM items WHERE id = ?";
+        String intolerance = jdbcTemplate.queryForObject(SELECT_ITEM_NAME, String.class, intoleranceId);
 
         // Add intolerance to the user
         user.getIntolerances().add(intolerance);
@@ -153,22 +159,27 @@ public class UserDaoImpl implements UserDao {
         final String DELETE_USER_INTOLERANCE = "DELETE intolerances " +
                 "FROM intolerances " +
                 "JOIN items ON items.id = intolerances.item_id " +
-                "WHERE intolerances.user_id = ? AND `items.name` = ? ";
+                "WHERE intolerances.user_id = ? AND items.name = ?";
         jdbcTemplate.update(DELETE_USER_INTOLERANCE, user.getUserId(), intolerance);
     }
 
     @Override
     public void addDietaryRestriction(User user, int dietaryRestrictionId) {
-        // Get the intolerance name
-        final String SELECT_DIET_RESTRICTION = "SELECT `items.name` FROM intolerances " +
+        /*
+        // Get the diet name
+        final String SELECT_DIET_RESTRICTION = "SELECT items.name FROM intolerances " +
                 "JOIN items ON intolerances.item_id = items.id " +
                 "WHERE intolerances.item_id = ?";
         String dietaryRestriction = jdbcTemplate.queryForObject(SELECT_DIET_RESTRICTION, new IntoleranceMapper(), dietaryRestrictionId);
+         */
 
-        // Add intolerance to the user
+        final String SELECT_DIET_NAME = "SELECT name FROM diets WHERE id = ?";
+        String dietaryRestriction = jdbcTemplate.queryForObject(SELECT_DIET_NAME, String.class, dietaryRestrictionId);
+
+        // Add diet to the user
         user.getDietaryRestrictions().add(dietaryRestriction);
 
-        // Insert user's intolerance to the intolerance table
+        // Insert user's diet to the diet table
         final String INSERT_USER_INTOLERANCE = "INSERT INTO dietary_restrictions(user_id, diet_id) " +
                 "VALUES(?, ?)";
         jdbcTemplate.update(INSERT_USER_INTOLERANCE, user.getUserId(), dietaryRestrictionId);
@@ -183,7 +194,7 @@ public class UserDaoImpl implements UserDao {
         final String DELETE_USER_DIETARY_RESTRICTION = "DELETE dietary_restrictions " +
                 "FROM dietary_restrictions " +
                 "JOIN diets ON diets.id = dietary_restrictions.diet_id " +
-                "WHERE dietary_restrictions.user_id = ? AND WHERE `diets.name` = ? ";
+                "WHERE dietary_restrictions.user_id = ? AND diets.name = ? ";
         jdbcTemplate.update(DELETE_USER_DIETARY_RESTRICTION, user.getUserId(), dietaryRestriction);
     }
 
@@ -214,5 +225,15 @@ public class UserDaoImpl implements UserDao {
         final String DELETE_USER_RECIPE = "DELETE FROM saved_recipes " +
                 "WHERE user_id = ? AND recipe_id = ?";
         jdbcTemplate.update(DELETE_USER_RECIPE, user.getIntolerances(), recipe.getRecipeId());
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllDiets() {
+        return jdbcTemplate.queryForList("SELECT id, name FROM diets");
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllIntolerances() {
+        return jdbcTemplate.queryForList("SELECT id, name FROM items");
     }
 }
