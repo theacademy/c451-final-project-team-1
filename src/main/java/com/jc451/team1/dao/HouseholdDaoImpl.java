@@ -86,15 +86,17 @@ public class HouseholdDaoImpl implements HouseholdDao {
 
     @Override
     public void removeUserFromHousehold(int userId, int householdId) {
-        final String DELETE_USER_FROM_HOUSEHOLD = "DELETE FROM household_memberships " +
-                "WHERE user_id = ? AND household_id = ?";
+        final String DELETE_USER_FROM_HOUSEHOLD = """
+                DELETE FROM household_memberships
+                WHERE user_id = ? AND household_id = ?""";
         jdbcTemplate.update(DELETE_USER_FROM_HOUSEHOLD, userId, householdId);
     }
 
     @Override
     public List<InventoryItem> getInventoryItems(int householdId) {
-        final String SELECT_ALL_HOUSEHOLD_INVENTORY = "SELECT * FROM inventory " +
-                "WHERE household_id = ?";
+        final String SELECT_ALL_HOUSEHOLD_INVENTORY = """
+                SELECT * FROM inventory
+                WHERE household_id = ?""";
         return jdbcTemplate.query(SELECT_ALL_HOUSEHOLD_INVENTORY, new InventoryItemMapper(), householdId);
     }
 
