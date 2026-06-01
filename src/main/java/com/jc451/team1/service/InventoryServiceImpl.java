@@ -33,8 +33,8 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public List<InventoryItem> getAllInventoryItems() {
-        return inventoryItemDao.getAllInventoryItems();
+    public List<InventoryItem> getAllInventoryItems(int householdId) {
+        return inventoryItemDao.getInventory(householdId);
     }
 
     @Override
@@ -66,10 +66,10 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public List<InventoryItem> getExpiringItems(int daysThreshold) {
+    public List<InventoryItem> getExpiringItems(int householdId, int daysThreshold) {
         LocalDate cutoff = LocalDate.now().plusDays(daysThreshold);
         List<InventoryItem> expiring = new ArrayList<>();
-        for (InventoryItem item : inventoryItemDao.getAllInventoryItems()) {
+        for (InventoryItem item : inventoryItemDao.getInventory(householdId)) {
             if (item.getExpirationDate() != null
                     && item.getExpirationDate().isBefore(cutoff)) {
                 expiring.add(item);

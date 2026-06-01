@@ -50,7 +50,7 @@ public class InventoryItemDaoImpl implements InventoryItemDao{
 
     // TODO: Check if intended, or going for a specific household inventory
     @Override
-    public List<InventoryItem> getAllInventoryItems() {
+    public List<InventoryItem> getInventory(int householdId) {
 
         final String SELECT_ALL_INVENTORY = "SELECT * FROM inventory";
         return jdbcTemplate.query(SELECT_ALL_INVENTORY, new InventoryItemMapper());

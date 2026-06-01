@@ -8,7 +8,7 @@ public interface InventoryItemDao {
 
     InventoryItem addInventoryItem(InventoryItem inventoryItem);
 
-    List<InventoryItem> getAllInventoryItems();
+    List<InventoryItem> getInventory(int householdId);
 
     InventoryItem findInventoryItemById(int id);
 
