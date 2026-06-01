@@ -10,17 +10,25 @@ import java.util.List;
 
 public class HouseholdServiceImpl implements HouseholdService {
 
-    private HouseholdDao householdDao;
+    private final HouseholdDao householdDao;
 
     @Autowired
-    public void setHouseholdDao(HouseholdDao householdDao) {
+    public HouseholdServiceImpl(HouseholdDao householdDao) {
         this.householdDao = householdDao;
     }
 
     @Override
-    public void createHousehold(Household household) {
-        // Verify
-        householdDao.createHousehold(household);
+    public Household createHousehold(Household household) {
+        boolean error = household.getCode().length() != 8
+                || household.getHouseholdName().isBlank();
+
+        if (error) {
+            household.setHouseholdId(-1);
+        } else {
+            household = householdDao.createHousehold(household);
+        }
+
+        return household;
     }
 
     @Override
@@ -34,13 +42,25 @@ public class HouseholdServiceImpl implements HouseholdService {
     }
 
     @Override
-    public void addUserToHousehold(int userId, int householdId) {
-        //householdDao.addUserToHousehold();
+    public boolean addUserToHousehold(int userId, int householdId) {
+        if (getHousehold(householdId) == null) {
+            return false;
+        }
+
+        householdDao.addUserToHousehold(userId, householdId);
+        return true;
     }
 
     @Override
-    public void removeUserFromHousehold(int userId, int householdId) {
-        //householdDao.removeUserFromHousehold()
+    public boolean removeUserFromHousehold(int userId, int householdId) {
+        if (getHousehold(householdId) == null) return false;
+
+        if (getMembers(householdId).stream()
+                .noneMatch(user -> user.getUserId() == userId))
+            return false;
+
+        householdDao.removeUserFromHousehold(userId, householdId);
+        return true;
     }
 
     @Override
@@ -49,7 +69,7 @@ public class HouseholdServiceImpl implements HouseholdService {
     }
 
     @Override
-    public List<User> getAllUsers(int householdId) {
-        return List.of();
+    public List<User> getMembers(int householdId) {
+        return householdDao.getAllUsers(householdId);
     }
 }

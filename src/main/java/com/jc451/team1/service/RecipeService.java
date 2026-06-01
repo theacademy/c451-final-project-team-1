@@ -12,6 +12,6 @@ public interface RecipeService {
 
     List<Recipe> getSavedRecipesByUserId(int userId);
 
-    void removeSavedRecipe(int userId, int recipeId);
+    void unsaveRecipe(int userId, int recipeId);
 
 }

@@ -4,13 +4,13 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class InventoryItem {
-    private int ingredientId;
-    private int itemId;
-    private String ingredientName;
-    private String unit;
-    private float quantity;
-    private LocalDate expirationDate;
+    private int id;
     private int houseHoldId;
+    private int ingredientId;
+    private String ingredientName;
+    private float quantity;
+    private String unit;
+    private LocalDate expirationDate;
 
     public int getIngredientId() {
         return ingredientId;
@@ -56,12 +56,12 @@ public class InventoryItem {
         this.houseHoldId = houseHoldId;
     }
 
-    public int getItemId() {
-        return itemId;
+    public int getId() {
+        return id;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
