@@ -73,9 +73,9 @@ public class UserDaoImpl implements UserDao {
                 (rs, rowNum) -> rs.getString("name"), id));
 
         final String SELECT_USER_INTOLERANCES_BY_ID = """
-                SELECT items.name
+                SELECT ingredients.name
                 FROM intolerances
-                JOIN items ON intolerances.item_id = items.id
+                JOIN ingredients ON intolerances.item_id = ingredients.id
                 WHERE intolerances.user_id = ?""";
 
         user.setIntolerances(jdbcTemplate.query(
@@ -152,7 +152,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void addIntolerance(User user, int ingredientId) {
         // Get the intolerance name
-        final String SELECT_ITEM_NAME = "SELECT name FROM items WHERE id = ?";
+        final String SELECT_ITEM_NAME = "SELECT name FROM ingredients WHERE id = ?";
         String intolerance = jdbcTemplate.queryForObject(
                 SELECT_ITEM_NAME, String.class, ingredientId);
         user.getIntolerances().add(intolerance);
@@ -174,7 +174,7 @@ public class UserDaoImpl implements UserDao {
         final String DELETE_USER_INTOLERANCE = """
                 DELETE FROM intolerances
                 WHERE user_id = ?
-                AND item_id = (SELECT id FROM items WHERE name = ?)""";
+                AND item_id = (SELECT id FROM ingredients WHERE name = ?)""";
 
         jdbcTemplate.update(DELETE_USER_INTOLERANCE,
                 user.getUserId(), intolerance);
@@ -246,6 +246,6 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<Map<String, Object>> getAllIntolerances() {
-        return jdbcTemplate.queryForList("SELECT id, name FROM items");
+        return jdbcTemplate.queryForList("SELECT id, name FROM ingredients");
     }
 }
