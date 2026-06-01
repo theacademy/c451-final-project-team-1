@@ -152,14 +152,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void addIntolerance(User user, int ingredientId) {
         // Get the intolerance name
-        /* TODO: Remove commented code?
-        final String SELECT_ITEM_INTOLERANCE = "SELECT items.name FROM intolerances " +
-                "JOIN items ON intolerances.item_id = items.id " +
-                "WHERE item_id = ?";
-        String intolerance = jdbcTemplate.queryForObject(SELECT_ITEM_INTOLERANCE,
-            new IntoleranceMapper(), ingredientId);
-         */
-
         final String SELECT_ITEM_NAME = "SELECT name FROM items WHERE id = ?";
         String intolerance = jdbcTemplate.queryForObject(
                 SELECT_ITEM_NAME, String.class, ingredientId);
@@ -178,13 +170,6 @@ public class UserDaoImpl implements UserDao {
         // Delete from User
         user.getIntolerances().remove(intolerance);
 
-//        TODO: Remove commented code?
-//        """
-//        DELETE intolerances
-//        FROM intolerances
-//        JOIN items ON items.id = intolerances.item_id
-//        WHERE intolerances.user_id = ? AND items.name = ?"""
-
         // Update the database
         final String DELETE_USER_INTOLERANCE = """
                 DELETE FROM intolerances
@@ -197,16 +182,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void addDietaryRestriction(User user, int dietaryRestrictionId) {
-        /*
         // Get the diet name
-        // TODO: Remove commented code?
-        final String SELECT_DIET_RESTRICTION = "SELECT items.name FROM intolerances " +
-                "JOIN items ON intolerances.item_id = items.id " +
-                "WHERE intolerances.item_id = ?";
-        String dietaryRestriction = jdbcTemplate.queryForObject(SELECT_DIET_RESTRICTION,
-            new IntoleranceMapper(), dietaryRestrictionId);
-         */
-
         final String SELECT_DIET_NAME = "SELECT name FROM diets WHERE id = ?";
         String dietaryRestriction = jdbcTemplate.queryForObject(
                 SELECT_DIET_NAME, String.class, dietaryRestrictionId);
@@ -225,13 +201,6 @@ public class UserDaoImpl implements UserDao {
     public void deleteDietaryRestriction(User user, String dietaryRestriction) {
         // Delete from the user
         user.getDietaryRestrictions().remove(dietaryRestriction);
-
-        // TODO: Remove commented code
-//        """
-//                DELETE dietary_restrictions
-//                FROM dietary_restrictions
-//                JOIN diets ON diets.id = dietary_restrictions.diet_id
-//                WHERE dietary_restrictions.user_id = ? AND diets.name = ?"""
 
         // Update the database
         final String DELETE_USER_DIETARY_RESTRICTION = """
