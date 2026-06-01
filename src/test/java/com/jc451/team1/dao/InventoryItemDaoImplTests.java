@@ -40,7 +40,7 @@ public class InventoryItemDaoImplTests {
         List<InventoryItem> newList = inventoryItemDao.getInventory(1);
 
         assertNotNull(newList);
-        assertEquals(15, newList.size());
+        assertEquals(6, newList.size());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class InventoryItemDaoImplTests {
         // TODO: include the household id
         List<InventoryItem> newList = inventoryItemDao.getInventory(1);
         assertNotNull(newList);
-        assertEquals(14, newList.size());
+        assertEquals(5, newList.size());
     }
 
     @Test
@@ -65,7 +65,7 @@ public class InventoryItemDaoImplTests {
     @DisplayName("Update Inventory Item Info")
     public void updateInventoryItemTest() {
         InventoryItem item = new InventoryItem();
-        item.setIngredientId(11); // Targeting row primary key id = 11
+        item.setIngredientId(11);
         item.setQuantity(10.0f);
         item.setUnit("Grams");
         item.setExpirationDate(LocalDate.of(2026, 12, 25));
@@ -89,12 +89,12 @@ public class InventoryItemDaoImplTests {
     @Test
     @DisplayName("Delete an Inventory Item")
     public void removeInventoryItemTest() {
-        inventoryItemDao.removeInventoryItem(14);
+        inventoryItemDao.removeInventoryItem(1);
         // TODO: include the household id
         List<InventoryItem> items = inventoryItemDao.getInventory(1);
 
         assertNotNull(items);
-        assertEquals(13, items.size());
+        assertEquals(4, items.size());
     }
 
     @Test

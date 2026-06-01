@@ -47,16 +47,20 @@
 
         <h3>Recipe Results</h3>
 
-        <div th:if="${recipes == null}">
+        <div th:if="${recipes == null or recipes.isEmpty()}">
             <p>No recipes searched yet.</p>
         </div>
 
-        <div th:if="${recipes != null}">
+        <div th:if="${recipes != null and !recipes.isEmpty()}">
 
-            <div th:each="recipe : ${recipes}"
+            <div th:each="recipe, iterStat : ${recipes}"
                  style="margin-bottom: 20px;">
-
-                <h2 th:text="${recipe.title}"></h2>
+                <h2>
+                    <a th:href="${sourceUrls[iterStat.index]}"
+                       th:text="${recipe.title}"
+                       target="_blank">
+                    </a>
+                </h2>
 
                 <img th:src="${recipe.image}"
                      width="250" th:alt="${recipe.title}">
@@ -71,23 +75,56 @@
                 </div>
 
                 <form action="/recipes/save" method="post">
-
-                    <!-- <input type="hidden" name="recipeId" th:value="${recipe.id}"> -->
-
-                    <input type="hidden" name="title" th:value="${recipe.title}">
-
-                    <input type="hidden" name="image" th:value="${recipe.image}">
-
-                    <button type="submit">
-                        Save Recipe
-                    </button>
-
+                    <input type="hidden" name="title"       th:value="${recipe.title}">
+                    <input type="hidden" name="image"       th:value="${recipe.image}">
+                    <input type="hidden" name="prepTime"    th:value="${recipe.prepTime}">
+                    <input type="hidden" name="instruction" th:value="${recipe.instruction}">
+                    <button type="submit">Save Recipe</button>
                 </form>
 
             </div>
 
         </div>
 
+    </div>
+
+    <br>
+
+    <!-- ── SAVED RECIPES ── -->
+    <div class="card">
+        <h3>Your Saved Recipes</h3>
+
+        <div th:if="${savedRecipes == null or savedRecipes.isEmpty()}">
+            <p>No saved recipes yet. Search and save one above!</p>
+        </div>
+
+        <div th:if="${savedRecipes != null and !savedRecipes.isEmpty()}">
+            <div th:each="recipe : ${savedRecipes}"
+                 style="margin-bottom: 16px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+
+                <h2 th:text="${recipe.title}"></h2>
+
+                <img th:src="${recipe.image}"
+                     th:if="${recipe.image != null}"
+                     width="250"
+                     th:alt="${recipe.title}">
+
+                <p th:if="${recipe.prepTime > 0}">
+                    Prep time: <strong th:text="${recipe.prepTime} + ' min'"></strong>
+                </p>
+
+                <div th:if="${recipe.instruction != null}"
+                     th:utext="${recipe.instruction}"
+                     style="font-size: 0.9em; color: #555; margin: 8px 0;">
+                </div>
+
+                <form action="/recipes/remove" method="post">
+                    <input type="hidden" name="recipeId" th:value="${recipe.recipeId}">
+                    <button type="submit">Remove</button>
+                </form>
+
+            </div>
+        </div>
     </div>
 
 </div>
