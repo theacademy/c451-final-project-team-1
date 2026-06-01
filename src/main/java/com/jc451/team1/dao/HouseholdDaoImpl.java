@@ -122,10 +122,10 @@ public class HouseholdDaoImpl implements HouseholdDao {
                 WHERE dietary_restrictions.user_id = ?""";
 
         final String SELECT_USER_INTOLERANCE_RESTRICTIONS_BY_ID = """
-                SELECT items.name
-                FROM intolerances
-                JOIN items ON intolerances.item_id = items.id 
-                WHERE intolerances.user_id = ?""";
+                SELECT intolerances.name
+                FROM user_intolerances
+                JOIN intolerances ON user_intolerances.intolerance_id = intolerances.id
+                WHERE user_intolerances.user_id = ?""";
 
         final String SELECT_SAVED_RECIPES_BY_USER_ID = """
                 SELECT recipes.*
