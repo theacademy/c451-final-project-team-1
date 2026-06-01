@@ -7,7 +7,7 @@ public interface InventoryService {
 
     InventoryItem addInventoryItem(InventoryItem inventoryItem);
 
-    List<InventoryItem> getAllInventoryItems();
+    List<InventoryItem> getAllInventoryItems(int householdId);
 
     InventoryItem findInventoryItemById(int id);
 
@@ -15,5 +15,5 @@ public interface InventoryService {
 
     void removeInventoryItem(int id);
 
-    List<InventoryItem> getExpiringItems(int daysThreshold);
+    List<InventoryItem> getExpiringItems(int householdId, int daysThreshold);
 }
