@@ -12,63 +12,55 @@
 
 <div class="container">
 
-    <h1>Welcome <span th:text="${session.user.userName}"></span> !</h1>
+    <h1>Welcome <span th:text="${session.user.userName}" style="text-transform: capitalize;"></span> !</h1>
 
     <!-- ── INTOLERANCES ── -->
-    <h3>Your Intolerances</h3>
-
-    <!-- current intolerances with remove button -->
-    <ul>
-        <li th:each="intolerance : ${session.user.intolerances}">
-            <span th:text="${intolerance}"></span>
-            <form th:action="@{/homepage/removeIntolerance}" method="post" style="display:inline">
-                <input type="hidden" name="intolerance" th:value="${intolerance}"/>
-                <button type="submit">Remove</button>
-            </form>
-        </li>
-        <li th:if="${session.user.intolerances == null or session.user.intolerances.isEmpty()}">
-            None set
-        </li>
-    </ul>
-
-    <!-- add intolerance dropdown -->
-    <form th:action="@{/homepage/addIntolerance}" method="post">
-        <select name="intoleranceId">
-            <option th:each="item : ${allIntolerances}"
-                    th:value="${item.id}"
-                    th:text="${item.name}">
-            </option>
-        </select>
-        <button type="submit">Add Intolerance</button>
-    </form>
+    <div class="section-card">
+        <p class="section-title">Your intolerances</p>
+        <div class="tag-row">
+            <span class="tag" th:each="intolerance : ${session.user.intolerances}">
+                <span th:text="${intolerance}"></span>
+                    <form th:action="@{/homepage/removeIntolerance}" method="post" style="display:inline">
+                        <input type="hidden" name="intolerance" th:value="${intolerance}"/>
+                            <button type="submit">✕</button>
+                    </form>
+                </span>
+                    <span th:if="${session.user.intolerances == null or session.user.intolerances.isEmpty()}"
+                        style="font-size: 13px; color: #aaa; font-style: italic;">
+                            None set
+                    </span>
+        </div>
+        <form th:action="@{/homepage/addIntolerance}" method="post" class="add-row">
+            <select name="intoleranceId">
+                <option th:each="item : ${allIntolerances}" th:value="${item.id}" th:text="${item.name}"></option>
+            </select>
+            <button type="submit" class="add-btn">+ Add</button>
+        </form>
+    </div>
 
     <!-- ── DIETARY RESTRICTIONS ── -->
-    <h3>Your Dietary Restrictions</h3>
-
-    <!-- current diets with remove button -->
-    <ul>
-        <li th:each="diet : ${session.user.dietaryRestrictions}">
-            <span th:text="${diet}"></span>
-            <form th:action="@{/homepage/removeDiet}" method="post" style="display:inline">
-                <input type="hidden" name="diet" th:value="${diet}"/>
-                <button type="submit">Remove</button>
+    <div class="section-card">
+        <p class="section-title">Your dietary restrictions</p>
+            <div class="tag-row">
+                <span class="tag" th:each="diet : ${session.user.dietaryRestrictions}">
+                    <span th:text="${diet}"></span>
+                        <form th:action="@{/homepage/removeDiet}" method="post" style="display:inline">
+                            <input type="hidden" name="diet" th:value="${diet}"/>
+                                <button type="submit">✕</button>
+                        </form>
+                    </span>
+                <span th:if="${session.user.dietaryRestrictions == null or session.user.dietaryRestrictions.isEmpty()}"
+                  style="font-size: 13px; color: #aaa; font-style: italic;">
+                    None set
+                </span>
+        </div>
+            <form th:action="@{/homepage/addDiet}" method="post" class="add-row">
+                <select name="dietId">
+                    <option th:each="diet : ${allDiets}" th:value="${diet.id}" th:text="${diet.name}"></option>
+                    </select>
+                        <button type="submit" class="add-btn">+ Add</button>
             </form>
-        </li>
-        <li th:if="${session.user.dietaryRestrictions == null or session.user.dietaryRestrictions.isEmpty()}">
-            None set
-        </li>
-    </ul>
-
-    <!-- add diet dropdown -->
-    <form th:action="@{/homepage/addDiet}" method="post">
-        <select name="dietId">
-            <option th:each="diet : ${allDiets}"
-                    th:value="${diet.id}"
-                    th:text="${diet.name}">
-            </option>
-        </select>
-        <button type="submit">Add Diet</button>
-    </form>
+    </div>
 
 </div>
 
