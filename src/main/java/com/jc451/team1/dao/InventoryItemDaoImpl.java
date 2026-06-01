@@ -98,7 +98,7 @@ public class InventoryItemDaoImpl implements InventoryItemDao{
     public String getItemNameByItemId(int itemId) {
 
         final String SELECT_NAME_BY_ITEM_ID =
-                "SELECT name FROM items WHERE id = ?";
+                "SELECT name FROM ingredients WHERE id = ?";
         return jdbcTemplate.queryForObject(
                 SELECT_NAME_BY_ITEM_ID, String.class, itemId);
     }

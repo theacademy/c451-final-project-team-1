@@ -73,10 +73,10 @@ public class UserDaoImpl implements UserDao {
                 (rs, rowNum) -> rs.getString("name"), id));
 
         final String SELECT_USER_INTOLERANCES_BY_ID = """
-                SELECT ingredients.name
-                FROM intolerances
-                JOIN ingredients ON intolerances.item_id = ingredients.id
-                WHERE intolerances.user_id = ?""";
+                SELECT intolerances.name
+                FROM user_intolerances
+                JOIN intolerances ON user_intolerances.intolerance_id = intolerances.id
+                WHERE user_intolerances.user_id = ?""";
 
         user.setIntolerances(jdbcTemplate.query(
                 SELECT_USER_INTOLERANCES_BY_ID,
@@ -152,15 +152,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void addIntolerance(User user, int ingredientId) {
         // Get the intolerance name
-        final String SELECT_ITEM_NAME = "SELECT name FROM ingredients WHERE id = ?";
+        final String SELECT_ITEM_NAME = "SELECT name FROM intolerances WHERE id = ?";
         String intolerance = jdbcTemplate.queryForObject(
                 SELECT_ITEM_NAME, String.class, ingredientId);
         user.getIntolerances().add(intolerance);
 
         // Insert user's intolerance to the intolerance table
-        final String INSERT_USER_INTOLERANCE = """
-                INSERT INTO intolerances (user_id, item_id)
-                VALUES (?, ?)""";
+        final String INSERT_USER_INTOLERANCE = "INSERT INTO user_intolerances (user_id, intolerance_id) VALUES (?, ?)";
         jdbcTemplate.update(INSERT_USER_INTOLERANCE,
                 user.getUserId(), ingredientId);
     }
@@ -172,9 +170,9 @@ public class UserDaoImpl implements UserDao {
 
         // Update the database
         final String DELETE_USER_INTOLERANCE = """
-                DELETE FROM intolerances
-                WHERE user_id = ?
-                AND item_id = (SELECT id FROM ingredients WHERE name = ?)""";
+            DELETE FROM user_intolerances
+            WHERE user_id = ?
+            AND intolerance_id = (SELECT id FROM intolerances WHERE name = ?)""";
 
         jdbcTemplate.update(DELETE_USER_INTOLERANCE,
                 user.getUserId(), intolerance);
@@ -246,6 +244,6 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<Map<String, Object>> getAllIntolerances() {
-        return jdbcTemplate.queryForList("SELECT id, name FROM ingredients");
+        return jdbcTemplate.queryForList("SELECT id, name FROM intolerances");
     }
 }
