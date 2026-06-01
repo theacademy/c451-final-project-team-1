@@ -33,7 +33,7 @@ INSERT INTO `smart_recipe_finder`.`household_memberships` (`household_id`, `user
   (3, 4, '2026-05-18 07:45:00'),
   (3, 5, '2026-05-18 07:50:00');
 
-INSERT INTO `smart_recipe_finder`.`items` (`id`, `name`) VALUES
+INSERT INTO `smart_recipe_finder`.`ingredients` (`id`, `name`) VALUES
   (1, 'Milk'),
   (2, 'Eggs'),
   (3, 'Flour'),
