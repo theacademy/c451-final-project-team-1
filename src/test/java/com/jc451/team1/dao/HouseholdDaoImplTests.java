@@ -33,7 +33,6 @@ public class HouseholdDaoImplTests {
     @Test
     @DisplayName("Get Household By ID: 1 (Smith Family)")
     public void getHouseholdByIdTest() {
-
         Household household = householdDao.getHouseholdById(1);
 
         assertNotNull(household, "Household #1 should exist");
@@ -45,14 +44,29 @@ public class HouseholdDaoImplTests {
         List<User> members = household.getUsers();
         assertNotNull(members, "Members list should not be null");
         assertEquals(2, members.size(), "Smith Family should have exactly 2 members");
+
+        // Note: Change to getUserName() or getUsername() depending on your DTO class field
         assertEquals("alice", members.get(0).getUserName());
         assertEquals("bob", members.get(1).getUserName());
     }
 
     @Test
+    @DisplayName("Get Household By Code: A1B2C3D4 (Smith Family)")
+    public void getHouseholdByCodeTest() {
+        // Act - Testing your new implementation method
+        Household household = householdDao.getHouseholdByCode("A1B2C3D4");
+
+        // Assert
+        assertNotNull(household, "Household should be found via code search");
+        assertEquals(1, household.getHouseholdId());
+        assertEquals("Smith Family", household.getHouseholdName());
+        assertNotNull(household.getUsers(), "Users list should be populated via your inner getAllUsers call");
+        assertEquals(2, household.getUsers().size());
+    }
+
+    @Test
     @DisplayName("Create New Household Test")
     public void createHouseholdTest() {
-
         Household newHousehold = new Household();
         newHousehold.setCode("XYZ98765");
         newHousehold.setHouseholdName("Tech Suite");
