@@ -15,7 +15,6 @@ public class InventoryItemMapper implements RowMapper<InventoryItem> {
         inventoryItem.setId(rs.getInt("id"));
         inventoryItem.setHouseHoldId(rs.getInt("household_id"));
         inventoryItem.setIngredientId(rs.getInt("item_id"));
-        inventoryItem.setIngredientName(rs.getString("ingredient_name"));
         inventoryItem.setQuantity(rs.getFloat("quantity"));
         inventoryItem.setUnit(rs.getString("unit"));
         inventoryItem.setExpirationDate(rs.getObject("expiration", java.time.LocalDate.class));
