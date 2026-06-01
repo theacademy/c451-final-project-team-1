@@ -35,4 +35,6 @@ public interface UserDao {
     List<Map<String, Object>> getAllDiets();
 
     List<Map<String, Object>> getAllIntolerances();
+
+    Integer getHouseholdIdByUserId(int userId);
 }

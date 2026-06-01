@@ -17,4 +17,6 @@ public interface InventoryItemDao {
     void removeInventoryItem(int id);
 
     String getItemNameByItemId(int itemId);
+
+    int getOrCreateIngredientId(String name);
 }
