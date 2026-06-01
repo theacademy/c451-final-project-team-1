@@ -52,3 +52,87 @@ button:hover {
 .error {
     color: red;
 }
+
+.section-card {
+    background: white;
+    border: 0.5px solid #ddd;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+}
+
+.section-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+}
+
+/* tags with inline remove */
+.tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f4f4f4;
+    border: 0.5px solid #ddd;
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 13px;
+    background-color: #3498db;
+}
+
+.tag button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #999;
+    font-size: 14px;
+    padding: 0;
+    width: auto;
+    margin: 0;
+    line-height: 1;
+}
+
+.tag button:hover {
+    color: red;
+    background: none;
+}
+
+.add-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.add-row select {
+    flex: 1;
+    padding: 7px 10px;
+    border: 0.5px solid #ccc;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.add-btn {
+    padding: 7px 16px;
+    background: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    width: auto;
+    margin: 0;
+}
+
+.add-btn:hover {
+    background: #3d5166;
+}
