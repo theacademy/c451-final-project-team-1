@@ -24,9 +24,9 @@ INSERT INTO `smart_recipe_finder`.`dietary_restrictions` (`user_id`, `diet_id`) 
   (5, 6);
 
 INSERT INTO `smart_recipe_finder`.`households` (`id`, `code`, `nickname`, `address`) VALUES
-  (1, 'A1B2C3D4', 'Smith Family', '123 Maple Lane'),
-  (2, 'E5F6G7H8', 'Solo Renter', '502 Elm St Apt 4B'),
-  (3, 'J9K0L1M2', 'Weekend Crew', '19 Pine Loop');
+  (1, '39479201', 'Smith Family', '123 Maple Lane'),
+  (2, '96045711', 'Solo Renter', '502 Elm St Apt 4B'),
+  (3, '35961857', 'Weekend Crew', '19 Pine Loop');
 
 INSERT INTO `smart_recipe_finder`.`household_memberships` (`household_id`, `user_id`, `date_added`) VALUES
   (1, 1, '2026-05-01 09:15:00'),
@@ -50,18 +50,18 @@ INSERT INTO `smart_recipe_finder`.`ingredients` (`id`, `name`) VALUES
   (12, 'Olive Oil');
 
 INSERT INTO `smart_recipe_finder`.`intolerances` (`id`, `name`) VALUES
-    ('Dairy', true),
-    ('Egg',   true),
-    ('Gluten',   true),
-    ('Grain', true),
-    ('Peanut',   true),
-    ('Seafood',  true),
-    ('Sesame',   true),
-    ('Shellfish',true),
-    ('Soy',   true),
-    ('Sulfite',  true),
-    ('Tree Nut', true),
-    ('Wheat', true);
+    (1, 'Dairy'),
+    (2, 'Egg'),
+    (3, 'Gluten'),
+    (4, 'Grain'),
+    (5, 'Peanut'),
+    (6, 'Seafood'),
+    (7, 'Sesame'),
+    (8, 'Shellfish'),
+    (9, 'Soy'),
+    (10, 'Sulfite'),
+    (11, 'Tree Nut'),
+    (12, 'Wheat');
 
 INSERT INTO `smart_recipe_finder`.`user_intolerances` (`user_id`, `intolerance_id`) VALUES
   (1, 1),
