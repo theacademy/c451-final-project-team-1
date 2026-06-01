@@ -10,9 +10,9 @@ import java.util.List;
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
-    @Autowired
-    RecipeDao recipeDao;
+    private final RecipeDao recipeDao;
 
+    @Autowired
     public RecipeServiceImpl(RecipeDao recipeDao) {
         this.recipeDao = recipeDao;
     }
@@ -20,6 +20,11 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe saveRecipe(Recipe recipe, int userId) {
        return recipeDao.saveRecipe(recipe,userId);
+    }
+
+    @Override
+    public void unsaveRecipe(int userId, int recipeId) {
+        recipeDao.removeSavedRecipe(userId,recipeId);
     }
 
     @Override
@@ -34,10 +39,5 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<Recipe> getSavedRecipesByUserId(int userId) {
         return recipeDao.getSavedRecipesByUserId(userId);
-    }
-
-    @Override
-    public void removeSavedRecipe(int userId, int recipeId) {
-        recipeDao.removeSavedRecipe(userId,recipeId);
     }
 }

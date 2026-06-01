@@ -7,17 +7,17 @@ import com.jc451.team1.dto.User;
 import java.util.List;
 
 public interface HouseholdService {
-    void createHousehold(Household household);
+    Household createHousehold(Household household);
 
     Household getHousehold(int id);
 
     Household getHouseholdFromUser(int userId);
 
-    void addUserToHousehold(int userId, int householdId);
+    boolean addUserToHousehold(int userId, int householdId);
 
-    void removeUserFromHousehold(int userId, int householdId);
+    boolean removeUserFromHousehold(int userId, int householdId);
 
     List<InventoryItem> getInventoryItems(int householdId);
 
-    List<User> getAllUsers(int householdId);
+    List<User> getMembers(int householdId);
 }

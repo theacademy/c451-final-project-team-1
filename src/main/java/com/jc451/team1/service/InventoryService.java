@@ -11,7 +11,7 @@ public interface InventoryService {
 
     InventoryItem findInventoryItemById(int id);
 
-    void updateInventoryItem(InventoryItem inventoryItem);
+    boolean updateInventoryItem(InventoryItem inventoryItem);
 
     void removeInventoryItem(int id);
 
