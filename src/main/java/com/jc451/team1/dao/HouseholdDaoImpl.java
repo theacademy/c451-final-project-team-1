@@ -113,21 +113,21 @@ public class HouseholdDaoImpl implements HouseholdDao {
         // Queries for the user's dietary restrictions, intolerances, and saved recipes
         final String SELECT_USER_DIETARY_RESTRICTIONS_BY_ID = """
                 SELECT diets.name
-                FROM users
-                JOIN dietary_restrictions ON users.id = dietary_restrictions.user_id
-                JOIN diets ON dietary_restrictions.diet_id = diets.id""";
+                FROM dietary_restrictions
+                JOIN diets ON dietary_restrictions.diet_id = diets.id
+                WHERE dietary_restrictions.user_id = ?""";
 
         final String SELECT_USER_INTOLERANCE_RESTRICTIONS_BY_ID = """
                 SELECT items.name
-                FROM users
-                JOIN intolerances ON users.id = intolerances.user_id
-                JOIN items ON intolerances.item_id = items.id""";
+                FROM intolerances
+                JOIN items ON intolerances.item_id = items.id
+                WHERE intolerances.user_id = ?""";
 
         final String SELECT_SAVED_RECIPES_BY_USER_ID = """
-                SELECT *
-                FROM users
-                JOIN saved_recipes ON users.id = saved_recipes.user_id
-                JOIN recipes ON saved_recipes.recipe_id = recipes.id""";
+                SELECT recipes.*
+                FROM saved_recipes
+                JOIN recipes ON saved_recipes.recipe_id = recipes.id
+                WHERE saved_recipes.user_id = ?""";
 
         for (User user : users) {
             user.setDietaryRestrictions(jdbcTemplate.query(
