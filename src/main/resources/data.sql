@@ -1,3 +1,5 @@
+USE `smart_recipe_finder`;
+
 INSERT INTO `smart_recipe_finder`.`diets` (`id`, `name`) VALUES
   (1, 'Vegetarian'),
   (2, 'Vegan'),
@@ -47,7 +49,21 @@ INSERT INTO `smart_recipe_finder`.`ingredients` (`id`, `name`) VALUES
   (11, 'Yogurt'),
   (12, 'Olive Oil');
 
-INSERT INTO `smart_recipe_finder`.`intolerances` (`user_id`, `item_id`) VALUES
+INSERT INTO `smart_recipe_finder`.`intolerances` (`id`, `name`) VALUES
+    ('Dairy', true),
+    ('Egg',   true),
+    ('Gluten',   true),
+    ('Grain', true),
+    ('Peanut',   true),
+    ('Seafood',  true),
+    ('Sesame',   true),
+    ('Shellfish',true),
+    ('Soy',   true),
+    ('Sulfite',  true),
+    ('Tree Nut', true),
+    ('Wheat', true);
+
+INSERT INTO `smart_recipe_finder`.`user_intolerances` (`user_id`, `intolerance_id`) VALUES
   (1, 1),
   (1, 3),
   (2, 2),
@@ -55,7 +71,7 @@ INSERT INTO `smart_recipe_finder`.`intolerances` (`user_id`, `item_id`) VALUES
   (3, 5),
   (4, 3);
 
-INSERT INTO `smart_recipe_finder`.`inventory` (`id`, `household_id`, `item_id`, `quantity`, `unit`, `date_stored`, `expiration`) VALUES
+INSERT INTO `smart_recipe_finder`.`inventory` (`item_id`, `household_id`, `ingredient_id`, `quantity`, `unit`, `date_stored`, `expiration`) VALUES
   (1, 1, 1, 2.00, 'L', '2026-05-20 08:00:00', '2026-06-02'),
   (2, 1, 2, 12.00, 'pcs', '2026-05-20 08:05:00', '2026-05-28'),
   (3, 1, 3, 1.50, 'kg', '2026-05-20 08:10:00', '2026-06-15'),
