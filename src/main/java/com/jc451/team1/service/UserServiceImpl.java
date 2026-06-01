@@ -121,4 +121,11 @@ public class UserServiceImpl implements UserService {
     public List<Map<String, Object>> getAllIntolerances() {
         return userDao.getAllIntolerances();
     }
+
+    @Override
+    public Integer getHouseholdIdByUserId(int userId) {
+        return userDao.getHouseholdIdByUserId(userId);
+    }
+
+
 }

@@ -78,4 +78,8 @@ public class InventoryItemServiceImpl implements InventoryItemService {
         return expiring;
     }
 
+    @Override
+    public int getOrCreateIngredientId(String name) {
+        return inventoryItemDao.getOrCreateIngredientId(name);
+    }
 }

@@ -37,6 +37,11 @@ public class UserController {
 
         if (user != null) {
             session.setAttribute("user", user);
+
+            // store householdId separately in session
+            Integer householdId = userService.getHouseholdIdByUserId(user.getUserId());
+            session.setAttribute("householdId", householdId != null ? householdId : 0);
+
             return "redirect:/homepage";
         }
 
@@ -157,6 +162,8 @@ public class UserController {
 
         // log them in right away
         session.setAttribute("user", created);
+        // new user has no household
+        session.setAttribute("householdId", 0);
         return "redirect:/homepage";
     }
 }
