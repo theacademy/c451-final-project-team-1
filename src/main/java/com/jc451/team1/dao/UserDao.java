@@ -3,25 +3,36 @@ package com.jc451.team1.dao;
 import com.jc451.team1.dto.Recipe;
 import com.jc451.team1.dto.User;
 
+import java.util.List;
+import java.util.Map;
+
 public interface UserDao {
 
-    public User createUser(User user);
+    User createUser(User user);
 
-    public User getUserById(int id);
+    User getUserById(int id);
 
-    public User getUserByUsername(String username);
+    User getUserByUsername(String username);
 
-    public void updateUser(User user);
+    User authenticate(String username, String password);
 
-    public void addIntolerance(User user, String intolerance);
+    void changePassword(int userId, String newPassword);
 
-    public void deleteIntolerance(User user, String intolerance);
+    void updateUser(User user);
 
-    public void addDietaryRestriction(User user, String dietaryRestriction);
+    void addIntolerance(User user, int intoleranceId);
 
-    public void deleteDietaryRestriction(User user, String dietaryRestriction);
+    void deleteIntolerance(User user, String intolerance);
 
-    public void addRecipe(User user, Recipe recipe);
+    void addDietaryRestriction(User user, int dietaryRestrictionId);
 
-    public void deleteRecipe(User user, Recipe recipe);
+    void deleteDietaryRestriction(User user, String dietaryRestriction);
+
+    void addRecipe(User user, Recipe recipe);
+
+    void deleteRecipe(User user, Recipe recipe);
+
+    List<Map<String, Object>> getAllDiets();
+
+    List<Map<String, Object>> getAllIntolerances();
 }
