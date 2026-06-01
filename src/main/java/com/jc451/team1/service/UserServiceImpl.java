@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +44,10 @@ public class UserServiceImpl implements UserService {
             return user;
         }
 
+        user.setIntolerances(new ArrayList<>());
+        user.setDietaryRestrictions(new ArrayList<>());
+        user.setRecipes(new ArrayList<>());
+
         return userDao.createUser(user);
     }
 
@@ -64,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByUsername(String username) {
-        return null;
+        return userDao.getUserByUsername(username);
     }
 
     @Override

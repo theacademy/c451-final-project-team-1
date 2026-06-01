@@ -109,4 +109,54 @@ public class UserController {
         session.setAttribute("user", user);
         return "redirect:/homepage";
     }
+
+    @GetMapping("/register")
+    public String registerPage() {
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String register(
+            @RequestParam("username") String username,
+            @RequestParam("password") String password,
+            @RequestParam("confirmPassword") String confirmPassword,
+            @RequestParam("email") String email,
+            HttpSession session,
+            Model model) {
+
+        // passwords don't match
+        if (!password.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match");
+            return "register";
+        }
+
+        // username already taken
+        if (userService.getUserByUsername(username) != null) {
+            model.addAttribute("error", "Username already taken");
+            return "register";
+        }
+
+        // username is blank
+        if (username.isBlank() || username.equals(null)) {
+            model.addAttribute("error", "Please input a username");
+            return "register";
+        }
+
+        User user = new User();
+        user.setUserName(username);
+        user.setPassword(password);
+        user.setEmail(email);
+
+        User created = userService.createUser(user);
+
+        // createUser returns userId -1 if validation failed in the service
+        if (created.getUserId() == -1) {
+            model.addAttribute("error", created.getUserName()); // service sets error msg as username
+            return "register";
+        }
+
+        // log them in right away
+        session.setAttribute("user", created);
+        return "redirect:/homepage";
+    }
 }
