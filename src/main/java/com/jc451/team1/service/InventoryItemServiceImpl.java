@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class InventoryServiceImpl implements InventoryService {
+public class InventoryItemServiceImpl implements InventoryItemService {
 
     private final InventoryItemDao inventoryItemDao;
 
     @Autowired
-    public InventoryServiceImpl(InventoryItemDao inventoryItemDao) {
+    public InventoryItemServiceImpl(InventoryItemDao inventoryItemDao) {
         this.inventoryItemDao = inventoryItemDao;
     }
 

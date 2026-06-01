@@ -49,7 +49,8 @@ public class HouseholdDaoImpl implements HouseholdDao {
 
     @Override
     public Household getHouseholdById(int id) {
-        final String SELECT_HOUSEHOLD_BY_ID = "SELECT * FROM households WHERE id = ?";
+        final String SELECT_HOUSEHOLD_BY_ID =
+                "SELECT * FROM households WHERE id = ?";
 
         Household household = jdbcTemplate.queryForObject(
                 SELECT_HOUSEHOLD_BY_ID,
@@ -64,7 +65,8 @@ public class HouseholdDaoImpl implements HouseholdDao {
 
     @Override
     public Household getHouseholdByCode(String householdCode) {
-        final String SELECT_HOUSEHOLD_BY_CODE = "SELECT * FROM households WHERE code = ?";
+        final String SELECT_HOUSEHOLD_BY_CODE =
+                "SELECT * FROM households WHERE code = ?";
 
         Household household = jdbcTemplate.queryForObject(
                 SELECT_HOUSEHOLD_BY_CODE, new HouseholdMapper(), householdCode);
@@ -97,7 +99,8 @@ public class HouseholdDaoImpl implements HouseholdDao {
         final String SELECT_ALL_HOUSEHOLD_INVENTORY = """
                 SELECT * FROM inventory
                 WHERE household_id = ?""";
-        return jdbcTemplate.query(SELECT_ALL_HOUSEHOLD_INVENTORY, new InventoryItemMapper(), householdId);
+        return jdbcTemplate.query(SELECT_ALL_HOUSEHOLD_INVENTORY,
+                new InventoryItemMapper(), householdId);
     }
 
     @Override
@@ -108,7 +111,8 @@ public class HouseholdDaoImpl implements HouseholdDao {
                 FROM household_memberships
                 JOIN users ON users.id = household_memberships.user_id
                 WHERE household_memberships.household_id = ?""";
-        List<User> users = jdbcTemplate.query(SELECT_HOUSEHOLD_USERS, new UserMapper(), householdId);
+        List<User> users = jdbcTemplate.query(SELECT_HOUSEHOLD_USERS,
+                new UserMapper(), householdId);
 
         // Queries for the user's dietary restrictions, intolerances, and saved recipes
         final String SELECT_USER_DIETARY_RESTRICTIONS_BY_ID = """
@@ -120,7 +124,7 @@ public class HouseholdDaoImpl implements HouseholdDao {
         final String SELECT_USER_INTOLERANCE_RESTRICTIONS_BY_ID = """
                 SELECT items.name
                 FROM intolerances
-                JOIN items ON intolerances.item_id = items.id
+                JOIN items ON intolerances.item_id = items.id 
                 WHERE intolerances.user_id = ?""";
 
         final String SELECT_SAVED_RECIPES_BY_USER_ID = """

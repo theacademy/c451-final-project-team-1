@@ -19,7 +19,7 @@ public class HouseholdServiceImpl implements HouseholdService {
 
     @Override
     public Household createHousehold(Household household) {
-        boolean error = household.getCode().length() != 8
+        boolean error = !household.getCode().matches("[0-9]{8}")
                 || household.getHouseholdName().isBlank();
 
         if (error) {

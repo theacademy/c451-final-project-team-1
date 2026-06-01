@@ -3,7 +3,7 @@ package com.jc451.team1.service;
 import com.jc451.team1.dto.InventoryItem;
 import java.util.List;
 
-public interface InventoryService {
+public interface InventoryItemService {
 
     InventoryItem addInventoryItem(InventoryItem inventoryItem);
 

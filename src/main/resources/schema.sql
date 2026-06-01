@@ -112,8 +112,9 @@ ENGINE = InnoDB;
 -- Table `smart_recipe_finder`.`items`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `smart_recipe_finder`.`items` ;
+DROP TABLE IF EXISTS `smart_recipe_finder`.`ingredients` ;
 
-CREATE TABLE IF NOT EXISTS `smart_recipe_finder`.`items` (
+CREATE TABLE IF NOT EXISTS `smart_recipe_finder`.ingredients (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`))
@@ -132,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `smart_recipe_finder`.`intolerances` (
   INDEX `fk_intolerances_item_idx` (`item_id` ASC) VISIBLE,
   CONSTRAINT `fk_intolerances_items`
     FOREIGN KEY (`item_id`)
-    REFERENCES `smart_recipe_finder`.`items` (`id`)
+    REFERENCES `smart_recipe_finder`.ingredients (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_intolerances_users`
@@ -149,24 +150,24 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `smart_recipe_finder`.`inventory` ;
 
 CREATE TABLE IF NOT EXISTS `smart_recipe_finder`.`inventory` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  item_id INT NOT NULL AUTO_INCREMENT,
   `household_id` INT NOT NULL,
-  `item_id` INT NOT NULL,
+  `ingredient_id` INT NOT NULL,
   `quantity` DECIMAL(6,2) NULL DEFAULT NULL,
   `unit` VARCHAR(50) NULL DEFAULT NULL,
   `date_stored` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `expiration` DATE NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_inventory_items_idx` (`item_id` ASC) VISIBLE,
-  UNIQUE INDEX `un_inventory_item` (`household_id` ASC, `item_id` ASC, `expiration` ASC) VISIBLE,
+  PRIMARY KEY (item_id),
+  INDEX `fk_inventory_items_idx` (ingredient_id ASC) VISIBLE,
+  UNIQUE INDEX `un_inventory_item` (`household_id` ASC, ingredient_id ASC, `expiration` ASC) VISIBLE,
   CONSTRAINT `fk_inventory_households`
     FOREIGN KEY (`household_id`)
     REFERENCES `smart_recipe_finder`.`households` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_inventory_items`
-    FOREIGN KEY (`item_id`)
-    REFERENCES `smart_recipe_finder`.`items` (`id`)
+    FOREIGN KEY (ingredient_id)
+    REFERENCES `smart_recipe_finder`.ingredients (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
