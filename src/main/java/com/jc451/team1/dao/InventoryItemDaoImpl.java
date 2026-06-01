@@ -62,11 +62,12 @@ public class InventoryItemDaoImpl implements InventoryItemDao{
 
     @Override
     public InventoryItem findInventoryItemById(int id) {
-
-        final String SELECT_BY_ID =
-                "SELECT * FROM inventory WHERE item_id = ?";
-        return jdbcTemplate.queryForObject(
-                SELECT_BY_ID, new InventoryItemMapper(), id);
+        final String SELECT_BY_ID = """
+                SELECT inventory.*, ingredients.name as ingredient_name
+                FROM inventory
+                JOIN ingredients ON inventory.ingredient_id = ingredients.id
+                WHERE item_id = ?""";
+        return jdbcTemplate.queryForObject(SELECT_BY_ID, new InventoryItemMapper(), id);
     }
 
     @Override
@@ -101,5 +102,30 @@ public class InventoryItemDaoImpl implements InventoryItemDao{
                 "SELECT name FROM ingredients WHERE id = ?";
         return jdbcTemplate.queryForObject(
                 SELECT_NAME_BY_ITEM_ID, String.class, itemId);
+    }
+
+    @Override
+    public int getOrCreateIngredientId(String name) {
+        // check if ingredient already exists
+        List<Integer> ids = jdbcTemplate.query(
+                "SELECT id FROM ingredients WHERE name = ?",
+                (rs, rowNum) -> rs.getInt("id"), name);
+
+        // if it exists return the id
+        if (!ids.isEmpty()) {
+            return ids.get(0);
+        }
+
+        // otherwise insert it and return the generated id
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(
+                    "INSERT INTO ingredients (name) VALUES (?)",
+                    Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, name);
+            return ps;
+        }, keyHolder);
+
+        return keyHolder.getKey().intValue();
     }
 }

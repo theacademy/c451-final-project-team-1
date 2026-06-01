@@ -8,24 +8,108 @@
 
 <div th:replace="fragments/header :: header"></div>
 
-<h1>Household Fridge Inventory</h1>
+<div class="container">
 
-<h2>Add an ingredient</h2>
-<form action="/inventory/add" method="post">
-    <input type="text" name="name" th:value="${ingredients}" placeholder="Ingredient">
-    <input type="text" name="quantity" th:value="${intolerances}" placeholder="Quantity">
-    <input type="date" name="expirationdate" th:value="${diet}" placeholder="ExpirationDate">
-    <button type="submit">Add</button>
-</form>
+    <h1>Household Fridge Inventory</h1>
 
-<h2>Ingredients in fridge</h2>
-<ul>
-    <li th:each="inventoryitem : ${inventoryitems}">
-        <span th:text="${inventoryitem.ingredientName}"></span>
-        <span th:text="${inventoryitem.quantity}"></span>
-        <span th:text="${inventoryitem.expirationDate}"></span>
-    </li>
-</ul>
+    <!-- no household yet -->
+    <div th:if="${noHousehold}">
+        <p>You are not part of a household yet.
+            <a href="/household">Create or join one here.</a>
+        </p>
+    </div>
+
+    <div th:unless="${noHousehold}">
+
+        <!-- ── ADD ITEM FORM ── -->
+        <div class="card">
+            <h3>Add Ingredient</h3>
+            <form action="/inventory/add" method="post">
+                <input type="text"   name="name"           placeholder="Ingredient name" required>
+                <input type="number" name="quantity"       placeholder="Quantity" step="0.1" min="0" required>
+                <select name="unit">
+                    <option value="pcs">pcs</option>
+                    <option value="g">g</option>
+                    <option value="kg">kg</option>
+                    <option value="ml">ml</option>
+                    <option value="L">L</option>
+                    <option value="cup">cup</option>
+                    <option value="tbsp">tbsp</option>
+                    <option value="tsp">tsp</option>
+                </select>
+                <input type="date" name="expirationDate">
+                <button type="submit">Add</button>
+            </form>
+        </div>
+
+        <br>
+
+        <!-- ── INVENTORY LIST ── -->
+        <div class="card">
+            <h3>Ingredients in Fridge</h3>
+
+            <div th:if="${inventoryItems == null or inventoryItems.isEmpty()}">
+                <p>No ingredients yet. Add one above!</p>
+            </div>
+
+            <table th:if="${inventoryItems != null and !inventoryItems.isEmpty()}">
+                <thead>
+                <tr>
+                    <th>Ingredient</th>
+                    <th>Quantity</th>
+                    <th>Unit</th>
+                    <th>Expires</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${inventoryItems}">
+
+                    <td th:text="${item.ingredientName}"></td>
+
+                    <!-- inline edit form for quantity, unit, expiration -->
+                    <td colspan="3">
+                        <form th:action="@{/inventory/update/{id}(id=${item.id})}"
+                              method="post" style="display:flex; gap:8px; align-items:center">
+
+                            <input type="number" name="quantity"
+                                   th:value="${item.quantity}"
+                                   step="0.1" min="0" required
+                                   style="width:80px">
+
+                            <select name="unit">
+                                <option th:value="pcs"  th:selected="${item.unit == 'pcs'}">pcs</option>
+                                <option th:value="g"    th:selected="${item.unit == 'g'}">g</option>
+                                <option th:value="kg"   th:selected="${item.unit == 'kg'}">kg</option>
+                                <option th:value="ml"   th:selected="${item.unit == 'ml'}">ml</option>
+                                <option th:value="L"    th:selected="${item.unit == 'L'}">L</option>
+                                <option th:value="cup"  th:selected="${item.unit == 'cup'}">cup</option>
+                                <option th:value="tbsp" th:selected="${item.unit == 'tbsp'}">tbsp</option>
+                                <option th:value="tsp"  th:selected="${item.unit == 'tsp'}">tsp</option>
+                            </select>
+
+                            <input type="date" name="expirationDate"
+                                   th:value="${item.expirationDate}">
+
+                            <button type="submit">Update</button>
+                        </form>
+                    </td>
+
+                    <td>
+                        <form th:action="@{/inventory/delete/{id}(id=${item.id})}"
+                              method="post">
+                            <button type="submit">Remove</button>
+                        </form>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>

@@ -1,8 +1,11 @@
 package com.jc451.team1.controllers;
 
 import com.jc451.team1.client.SpoonacularClient;
+import com.jc451.team1.dto.InventoryItem;
 import com.jc451.team1.dto.Recipe;
 import com.jc451.team1.dto.User;
+import com.jc451.team1.service.InventoryItemService;
+import com.jc451.team1.service.InventoryItemServiceImpl;
 import com.jc451.team1.service.RecipeService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +24,25 @@ public class RecipeController {
 
     private final SpoonacularClient spoonacularClient;
     private final RecipeService recipeService;
+    private final InventoryItemService inventoryItemService;
 
     @Autowired
-    public RecipeController(SpoonacularClient spoonacularClient, RecipeService recipeService) {
+    public RecipeController(SpoonacularClient spoonacularClient, RecipeService recipeService, InventoryItemService inventoryItemService) {
         this.spoonacularClient = spoonacularClient;
         this.recipeService = recipeService;
+        this.inventoryItemService = inventoryItemService;
     }
 
     @GetMapping("/recipes")
     public String recipesPage(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
         if (user == null) return "redirect:/login";
+
+        int householdId = (int) session.getAttribute("householdId");
+
+        // load inventory so user can see what ingredients will be used
+        List<InventoryItem> inventoryItems = inventoryItemService.getAllInventoryItems(householdId);
+        model.addAttribute("inventoryItems", inventoryItems);
 
         model.addAttribute("savedRecipes",
                 recipeService.getSavedRecipesByUserId(user.getUserId()));
@@ -41,12 +52,20 @@ public class RecipeController {
 
     // GET /recipes/search — call Spoonacular, show results in recipes.html
     @GetMapping("/recipes/search")
-    public String searchRecipes(@RequestParam("ingredients") String ingredients,
-                                HttpSession session,
-                                Model model) {
+    public String searchRecipes(HttpSession session, Model model) {
 
         User user = (User) session.getAttribute("user");
         if (user == null) return "redirect:/login";
+
+        int householdId = (int) session.getAttribute("householdId");
+
+        // build ingredient string from household inventory
+        List<InventoryItem> inventoryItems =
+                inventoryItemService.getAllInventoryItems(householdId);
+
+        String ingredients = inventoryItems.stream()
+                .map(InventoryItem::getIngredientName)
+                .collect(java.util.stream.Collectors.joining(","));
 
         // build diet and intolerance strings from the user object
         String diet = user.getDietaryRestrictions() != null
@@ -95,17 +114,13 @@ public class RecipeController {
 
             recipes.add(recipe);
             sourceUrls.add((String) r.get("sourceUrl")); // should maybe add a field for sourceUrl on Recipe object instead of doing this
-            //Saving last recipe search
-            session.setAttribute("lastIngredients", ingredients);
         }
 
         model.addAttribute("recipes", recipes);
+        model.addAttribute("inventoryItems", inventoryItems);
 
         // recipe source urls
         model.addAttribute("sourceUrls", sourceUrls);
-
-        // keep the search terms populated in the form
-        model.addAttribute("ingredients", ingredients);
 
         // reload saved recipes so section stays visible after search
         model.addAttribute("savedRecipes", recipeService.getSavedRecipesByUserId(user.getUserId()));
@@ -131,12 +146,7 @@ public class RecipeController {
 
         recipeService.saveRecipe(recipe, user.getUserId());
 
-        String lastIngredients = (String) session.getAttribute("lastIngredients");
-        if (lastIngredients != null) {
-            return "redirect:/recipes/search?ingredients=" + lastIngredients;
-        }
-
-        return "redirect:/recipes";
+        return "redirect:/recipes/search";
     }
 
     @PostMapping("/recipes/remove")
@@ -148,10 +158,6 @@ public class RecipeController {
 
         recipeService.unsaveRecipe(user.getUserId(), recipeId);
 
-        String lastIngredients = (String) session.getAttribute("lastIngredients");
-        if (lastIngredients != null) {
-            return "redirect:/recipes/search?ingredients=" + lastIngredients;
-        }
-        return "redirect:/recipes";
+        return "redirect:/recipes/search";
     }
 }

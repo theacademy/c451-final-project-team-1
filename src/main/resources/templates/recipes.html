@@ -20,10 +20,13 @@
 
         <form action="/recipes/search" method="get">
 
-            <input type="text"
-                   name="ingredients"
-                   placeholder="Ingredients Ex: chicken,tomato,cheese"
-                   required>
+            <!-- show what ingredients will be sent to the API -->
+            <div th:if="${inventoryItems != null and !inventoryItems.isEmpty()}">
+                <p>Searching with ingredients from your fridge:</p>
+                <ul>
+                    <li th:each="item : ${inventoryItems}" th:text="${item.ingredientName}"></li>
+                </ul>
+            </div>
 
             <p th:if="${session.user.dietaryRestrictions != null and !session.user.dietaryRestrictions.isEmpty()}">
                 Diet: <strong th:text="${#strings.listJoin(session.user.dietaryRestrictions, ', ')}"></strong>

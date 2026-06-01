@@ -246,4 +246,16 @@ public class UserDaoImpl implements UserDao {
     public List<Map<String, Object>> getAllIntolerances() {
         return jdbcTemplate.queryForList("SELECT id, name FROM intolerances");
     }
+
+    @Override
+    public Integer getHouseholdIdByUserId(int userId) {
+        final String SELECT = """
+            SELECT household_id FROM household_memberships
+            WHERE user_id = ? LIMIT 1""";
+        try {
+            return jdbcTemplate.queryForObject(SELECT, Integer.class, userId);
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
 }
