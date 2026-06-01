@@ -17,20 +17,20 @@ public class InventoryItemDaoStub implements InventoryItemDao {
     }
 
     @Override
-    public List<InventoryItem> getAllInventoryItems() {
+    public List<InventoryItem> getInventory(int householdId) {
         InventoryItem item1 = new InventoryItem();
         item1.setId(1);
         item1.setIngredientName("Milk");
         item1.setQuantity(2);
         item1.setUnit("Liters");
-        item1.setExpirationDate(LocalDate.of(2026, 6, 7)); // expiring soon!
+        item1.setExpirationDate(LocalDate.of(2026, 6, 7));
 
         InventoryItem item2 = new InventoryItem();
         item2.setId(2);
         item2.setIngredientName("Corn Starch");
         item2.setQuantity(1);
         item2.setUnit("kg");
-        item2.setExpirationDate(LocalDate.of(2027, 1, 1)); // not expiring soon
+        item2.setExpirationDate(LocalDate.of(2027, 1, 1));
 
         return new ArrayList<>(List.of(item1, item2));
     }

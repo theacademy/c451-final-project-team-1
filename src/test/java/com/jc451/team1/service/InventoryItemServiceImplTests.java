@@ -10,11 +10,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class InventoryItemServiceImplTests {
 
-    private InventoryService inventoryService;
+    private InventoryItemService inventoryService;
 
     public InventoryItemServiceImplTests() {
         InventoryItemDao stub = new InventoryItemDaoStub();
-        inventoryService = new InventoryServiceImpl(stub);
+        inventoryService = new InventoryItemServiceImpl(stub);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class InventoryItemServiceImplTests {
     @Test
     @DisplayName("Get All Inventory Items Service Test")
     public void getAllInventoryItemsTest() {
-        List<InventoryItem> result = inventoryService.getAllInventoryItems();
+        List<InventoryItem> result = inventoryService.getAllInventoryItems(1);
         assertNotNull(result);
         assertEquals(2, result.size());
     }
@@ -93,7 +93,7 @@ public class InventoryItemServiceImplTests {
     @Test
     @DisplayName("Get Expiring Items Service Test")
     public void getExpiringItemsTest() {
-        List<InventoryItem> result = inventoryService.getExpiringItems(7);
+        List<InventoryItem> result = inventoryService.getExpiringItems(1, 7);
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("Milk", result.get(0).getIngredientName());
