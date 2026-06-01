@@ -26,7 +26,7 @@ public class InventoryItemDaoImpl implements InventoryItemDao{
     public InventoryItem addInventoryItem(InventoryItem inventoryItem) {
 
         final String INSERT_INVENTORY = """
-                INSERT INTO inventory (household_id, item_id, quantity, unit, expiration)
+                INSERT INTO inventory (household_id, ingredient_id, quantity, unit, expiration)
                 VALUES(?, ?, ?, ?, ?)""";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -34,7 +34,7 @@ public class InventoryItemDaoImpl implements InventoryItemDao{
             PreparedStatement ps = connection.prepareStatement(
                     INSERT_INVENTORY, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, inventoryItem.getHouseHoldId());
-            ps.setInt(2, inventoryItem.getId());
+            ps.setInt(2, inventoryItem.getIngredientId());
             ps.setFloat(3, inventoryItem.getQuantity());
             ps.setString(4, inventoryItem.getUnit());
             ps.setDate(5, java.sql.Date.valueOf(inventoryItem.getExpirationDate()));
@@ -51,8 +51,11 @@ public class InventoryItemDaoImpl implements InventoryItemDao{
     @Override
     public List<InventoryItem> getInventory(int householdId) {
 
-        final String SELECT_HOUSEHOLD_INVENTORY =
-                "SELECT * FROM inventory WHERE household_id = ?";
+        final String SELECT_HOUSEHOLD_INVENTORY = """
+                SELECT *, `name` as ingredient_name
+                FROM inventory
+                JOIN ingredients ON inventory.ingredient_id = ingredients.id
+                WHERE household_id = ?""";
         return jdbcTemplate.query(SELECT_HOUSEHOLD_INVENTORY,
                 new InventoryItemMapper(), householdId);
     }
@@ -60,7 +63,8 @@ public class InventoryItemDaoImpl implements InventoryItemDao{
     @Override
     public InventoryItem findInventoryItemById(int id) {
 
-        final String SELECT_BY_ID = "SELECT * FROM inventory WHERE id = ?";
+        final String SELECT_BY_ID =
+                "SELECT * FROM inventory WHERE item_id = ?";
         return jdbcTemplate.queryForObject(
                 SELECT_BY_ID, new InventoryItemMapper(), id);
     }
@@ -70,9 +74,9 @@ public class InventoryItemDaoImpl implements InventoryItemDao{
 
         final String UPDATE_INVENTORY = """
                 UPDATE inventory
-                SET household_id = ?, item_id = ?,
+                SET household_id = ?, ingredient_id = ?,
                 quantity = ?, unit = ?, expiration = ?
-                WHERE id = ?""";
+                WHERE item_id = ?""";
 
         jdbcTemplate.update(UPDATE_INVENTORY,
                 inventoryItem.getHouseHoldId(),
@@ -86,7 +90,7 @@ public class InventoryItemDaoImpl implements InventoryItemDao{
     @Override
     public void removeInventoryItem(int id) {
 
-        final String DELETE_INVENTORY = "DELETE FROM inventory WHERE id = ?";
+        final String DELETE_INVENTORY = "DELETE FROM inventory WHERE item_id = ?";
         jdbcTemplate.update(DELETE_INVENTORY,id);
     }
 
