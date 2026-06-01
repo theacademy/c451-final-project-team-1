@@ -36,7 +36,8 @@ public class InventoryItemDaoImplTests {
         item.setId(1);
 
         inventoryItemDao.addInventoryItem(item);
-        List<InventoryItem> newList = inventoryItemDao.getAllInventoryItems();
+        // TODO: include the household id
+        List<InventoryItem> newList = inventoryItemDao.getInventory(1);
 
         assertNotNull(newList);
         assertEquals(15, newList.size());
@@ -45,7 +46,8 @@ public class InventoryItemDaoImplTests {
     @Test
     @DisplayName("Get All Inventory Items Test")
     public void getAllInventoryItemsTest() {
-        List<InventoryItem> newList = inventoryItemDao.getAllInventoryItems();
+        // TODO: include the household id
+        List<InventoryItem> newList = inventoryItemDao.getInventory(1);
         assertNotNull(newList);
         assertEquals(14, newList.size());
     }
@@ -71,7 +73,8 @@ public class InventoryItemDaoImplTests {
         item.setId(2);
 
         inventoryItemDao.updateInventoryItem(item);
-        List<InventoryItem> newList = inventoryItemDao.getAllInventoryItems();
+        // TODO: include the household id
+        List<InventoryItem> newList = inventoryItemDao.getInventory(1);
         assertNotNull(newList);
 
         int matchCount = 0;
@@ -87,7 +90,8 @@ public class InventoryItemDaoImplTests {
     @DisplayName("Delete an Inventory Item")
     public void removeInventoryItemTest() {
         inventoryItemDao.removeInventoryItem(14);
-        List<InventoryItem> items = inventoryItemDao.getAllInventoryItems();
+        // TODO: include the household id
+        List<InventoryItem> items = inventoryItemDao.getInventory(1);
 
         assertNotNull(items);
         assertEquals(13, items.size());

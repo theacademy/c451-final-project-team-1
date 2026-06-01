@@ -22,52 +22,60 @@ public class RecipeDaoImpl implements RecipeDao{
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Override
-    @Transactional
+    @Override @Transactional
     public Recipe saveRecipe(Recipe recipe, int userId) {
-        final String INSERT_RECIPE = "INSERT INTO recipes(title, prep_time_in_mins, instructions, image_link) VALUES(?,?,?,?)";
+        final String INSERT_RECIPE = """
+                INSERT INTO recipes
+                    (title, prep_time_in_mins, instructions, image_link)
+                VALUES(?,?,?,?)""";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(INSERT_RECIPE, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement(
+                    INSERT_RECIPE, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, recipe.getTitle());
             ps.setInt(2, recipe.getPrepTime());
             ps.setString(3, recipe.getInstruction());
             ps.setString(4, recipe.getImage());
             return ps;
-        },keyHolder);
+        }, keyHolder);
 
         Number key = keyHolder.getKey();
-        if (key != null){
+        if (key != null) {
             recipe.setRecipeId(key.intValue());
         }
 
-        final String INSERT_USER_LINK = "INSERT IGNORE INTO saved_recipes(user_id, recipe_id) VALUES(?,?)";
-        jdbcTemplate.update(INSERT_USER_LINK, userId, recipe.getRecipeId());
+        final String SAVE_RECIPE_FOR_USER =
+                "INSERT INTO saved_recipes(user_id, recipe_id) VALUES(?,?)";
+        jdbcTemplate.update(
+                SAVE_RECIPE_FOR_USER, userId, recipe.getRecipeId());
 
         return recipe;
     }
 
     @Override
     public Recipe findRecipeById(int id) {
-        final String SELECT_BY_ID = "SELECT * FROM recipes WHERE id = ?";
-        return jdbcTemplate.queryForObject(SELECT_BY_ID, new RecipeMapper(), id);
+        final String FIND_RECIPE_BY_ID = "SELECT * FROM recipes WHERE id = ?";
+        return jdbcTemplate.queryForObject(
+                FIND_RECIPE_BY_ID, new RecipeMapper(), id);
     }
 
     @Override
     public List<Recipe> getSavedRecipesByUserId(int userId) {
-        final String SELECT_SAVED_BY_USER =
-                "SELECT r.* FROM recipes r " +
-                "INNER JOIN saved_recipes sr ON r.id = sr.recipe_id " +
-                "WHERE sr.user_id = ?";
+        final String SELECT_SAVED_BY_USER = """
+                SELECT r.* FROM recipes r
+                JOIN saved_recipes sr ON r.id = sr.recipe_id
+                WHERE sr.user_id = ?""";
 
-        return jdbcTemplate.query(SELECT_SAVED_BY_USER, new RecipeMapper(), userId);
+        return jdbcTemplate.query(
+                SELECT_SAVED_BY_USER, new RecipeMapper(), userId);
     }
 
     @Override
     public void removeSavedRecipe(int userId, int recipeId) {
-        final String DELETE_SAVED = "DELETE FROM saved_recipes WHERE user_id = ? AND recipe_id = ?";
-        jdbcTemplate.update(DELETE_SAVED, userId, recipeId);
+        final String REMOVE_SAVED_RECIPE =
+                "DELETE FROM saved_recipes WHERE user_id = ? AND recipe_id = ?";
+        jdbcTemplate.update(REMOVE_SAVED_RECIPE, userId, recipeId);
     }
 }
