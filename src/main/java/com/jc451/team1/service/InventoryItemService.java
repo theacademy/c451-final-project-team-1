@@ -16,4 +16,6 @@ public interface InventoryItemService {
     void removeInventoryItem(int id);
 
     List<InventoryItem> getExpiringItems(int householdId, int daysThreshold);
+
+    int getOrCreateIngredientId(String name);
 }

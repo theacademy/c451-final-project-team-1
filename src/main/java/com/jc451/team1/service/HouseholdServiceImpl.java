@@ -5,9 +5,11 @@ import com.jc451.team1.dto.Household;
 import com.jc451.team1.dto.InventoryItem;
 import com.jc451.team1.dto.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class HouseholdServiceImpl implements HouseholdService {
 
     private final HouseholdDao householdDao;
