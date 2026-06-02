@@ -11,7 +11,8 @@ public class HouseholdDaoStubImpl implements HouseholdDao {
 
     public Household household;
 
-    public HouseholdDaoStubImpl(){
+    public HouseholdDaoStubImpl() {
+        household = new Household();
         household.setHouseholdId(1);
         household.setHouseholdName("TestName");
         household.setAddress("testAddress");
@@ -30,6 +31,11 @@ public class HouseholdDaoStubImpl implements HouseholdDao {
 
     @Override
     public Household getHouseholdByCode(String householdCode) {
+        return null;
+    }
+
+    @Override
+    public Household getHouseholdFromUser(int userId) {
         return null;
     }
 

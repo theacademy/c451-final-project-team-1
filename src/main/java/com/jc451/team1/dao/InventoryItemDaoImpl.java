@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -37,7 +38,10 @@ public class InventoryItemDaoImpl implements InventoryItemDao{
             ps.setInt(2, inventoryItem.getIngredientId());
             ps.setFloat(3, inventoryItem.getQuantity());
             ps.setString(4, inventoryItem.getUnit());
-            ps.setDate(5, java.sql.Date.valueOf(inventoryItem.getExpirationDate()));
+            LocalDate expirationDate = inventoryItem.getExpirationDate();
+            if (expirationDate != null) ps.setDate(5,
+                    java.sql.Date.valueOf(inventoryItem.getExpirationDate()));
+            else ps.setNull(5, java.sql.Types.DATE);
             return ps;
         }, keyHolder);
 
