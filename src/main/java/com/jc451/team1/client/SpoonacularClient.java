@@ -40,6 +40,7 @@ public class SpoonacularClient {
         url.append("&number=5");
         url.append("&addRecipeInformation=true"); // gives us prepTime, instructions
         url.append("&addRecipeInstructions=true"); // gives us recipeSteps
+        url.append("&fillIngredients=true");
 
         if (ingredients != null && !ingredients.isBlank()) {
             url.append("&includeIngredients=").append(ingredients.trim());
