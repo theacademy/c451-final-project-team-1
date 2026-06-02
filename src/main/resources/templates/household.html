@@ -14,58 +14,30 @@
 
     <h1>Household</h1>
 
-    <div class="card">
-
-        <h3>Create or Join Household</h3>
-
+    <div class="household-card">
+        <p class="section-title">Create or join household</p>
         <form action="/household/create" method="post">
-
-            <input type="text"
-                   name="code"
-                   placeholder="Household Code (8 digits)"
-                   required>
-
-            <input type="text"
-                   name="name"
-                   placeholder="Household Name"
-                   required>
-
-            <input type="text"
-                   name="address"
-                   placeholder="Household Address">
-
-            <button type="submit">
-                Create Household
-            </button>
-
+            <input type="text" name="code" placeholder="Household Code (8 digits)" required>
+            <input type="text" name="name" placeholder="Household Name" required>
+            <input type="text" name="address" placeholder="Household Address">
+            <button type="submit" class="add-btn" style="margin-top: 12px;">Create Household</button>
         </form>
-
     </div>
 
     <br>
 
-    <div class="card">
-
-        <h3>Your Household</h3>
-
-        <p th:if="${household == null}">
+    <div class="household-card">
+        <p class="section-title">Your household</p>
+        <p th:if="${household == null}" style="font-size: 13px; color: #aaa; font-style: italic;">
             No household created yet.
         </p>
-
         <div th:if="${household != null}">
-
-            <h2 th:text="${household.householdName}"></h2>
-
-            <p>
-                Members:
-                <span th:text="${memberCount}"></span>
-                <div th:each="member: ${members}">
-                    <div th:text="${member.userName}"></div>
-                </div>
-            </p>
-
+            <h2 th:text="${household.householdName}" style="margin: 0 0 8px;"></h2>
+            <p style="font-size: 13px; color: #888; margin: 0 0 12px;">Members: <span th:text="${memberCount}"></span></p>
+            <div th:each="member: ${members}">
+                <span class="tag" th:text="${member.userName}" style="text-transform: capitalize;"></span>
+            </div>
         </div>
-
     </div>
 
 </div>

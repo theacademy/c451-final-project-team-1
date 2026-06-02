@@ -22,9 +22,9 @@
     <div th:unless="${noHousehold}">
 
         <!-- ── ADD ITEM FORM ── -->
-        <div class="card">
+        <div class="inventory-card">
             <h3>Add Ingredient</h3>
-            <form action="/inventory/add" method="post">
+            <form action="/inventory/add" method="post" class = "form-row">
                 <input type="text"   name="name"           placeholder="Ingredient name" required>
                 <input type="number" name="quantity"       placeholder="Quantity" step="0.1" min="0" required>
                 <select name="unit">
@@ -45,7 +45,7 @@
         <br>
 
         <!-- ── INVENTORY LIST ── -->
-        <div class="card">
+        <div class="inventory-card">
             <h3>Ingredients in Fridge</h3>
 
             <div th:if="${inventoryItems == null or inventoryItems.isEmpty()}">
@@ -63,7 +63,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="item : ${inventoryItems}">
+                <tr th:each="item : ${inventoryItems}"
+                    th:classappend="${item.expirationDate != null and item.expirationDate.isBefore(#temporals.createNow().toLocalDate())} ? 'expired' : ''">
 
                     <td th:text="${item.ingredientName}"></td>
 
@@ -91,14 +92,14 @@
                             <input type="date" name="expirationDate"
                                    th:value="${item.expirationDate}">
 
-                            <button type="submit">Update</button>
+                            <button type="submit" class="btn-update">Update</button>
                         </form>
                     </td>
 
                     <td>
                         <form th:action="@{/inventory/delete/{id}(id=${item.id})}"
                               method="post">
-                            <button type="submit">Remove</button>
+                            <button type="submit" class="btn-remove">Remove</button>
                         </form>
                     </td>
 
