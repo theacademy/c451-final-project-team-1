@@ -53,8 +53,7 @@ public class HouseholdDaoImpl implements HouseholdDao {
                 "SELECT * FROM households WHERE id = ?";
 
         Household household = jdbcTemplate.queryForObject(
-                SELECT_HOUSEHOLD_BY_ID,
-                new HouseholdMapper(), id);
+                SELECT_HOUSEHOLD_BY_ID, new HouseholdMapper(), id);
 
         if (household != null) {
             household.setUsers(getAllUsers(id));
@@ -75,6 +74,25 @@ public class HouseholdDaoImpl implements HouseholdDao {
             household.setUsers(this.getAllUsers(household.getHouseholdId()));
         }
 
+        return household;
+    }
+
+    @Override
+    public Household getHouseholdFromUser(int userId) {
+        final String SELECT_HOUSEHOLD_BY_USER_ID = """
+                SELECT *
+                FROM households
+                JOIN household_memberships
+                ON households.id = household_memberships.household_id
+                WHERE user_id = ?""";
+
+        List<Household> userHouseholds = jdbcTemplate.query(
+                SELECT_HOUSEHOLD_BY_USER_ID, new HouseholdMapper(), userId);
+
+        if (userHouseholds.isEmpty()) return null;
+
+        Household household = userHouseholds.get(0);
+        household.setUsers(this.getAllUsers(household.getHouseholdId()));
         return household;
     }
 
