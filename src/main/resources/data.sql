@@ -88,14 +88,14 @@ INSERT INTO `smart_recipe_finder`.`inventory` (`item_id`, `household_id`, `ingre
   (14, 3, 12, 0.60, 'L', '2026-05-24 14:15:00', NULL);
 
 INSERT INTO `smart_recipe_finder`.`recipes` (`id`, `title`, `prep_time_in_mins`, `instructions`, `image_link`) VALUES
-  (1, 'Chicken Stir Fry', 35, 'Marinate chicken, chop vegetables, stir fry with soy sauce and serve over rice.', 'https://example.com/images/chicken-stir-fry.jpg'),
-  (2, 'Vegan Buddha Bowl', 25, 'Roast sweet potato, cook quinoa, add chickpeas and fresh greens, drizzle tahini dressing.', 'https://example.com/images/vegan-buddha-bowl.jpg'),
-  (3, 'Gluten-Free Pancakes', 20, 'Mix gluten-free flour with almond milk, eggs, and bake on a griddle until golden brown.', 'https://example.com/images/gluten-free-pancakes.jpg'),
-  (4, 'Salmon with Lemon Rice', 40, 'Pan-sear salmon, cook rice with lemon zest, serve with steamed greens and a light vinaigrette.', 'https://example.com/images/salmon-lemon-rice.jpg'),
-  (5, 'Keto Avocado Egg Salad', 15, 'Mix hard-boiled eggs with avocado, mustard, and herbs, serve over mixed greens.', 'https://example.com/images/keto-avocado-egg-salad.jpg'),
-  (6, 'Paleo Beef Stew', 120, 'Slow cook beef with root vegetables, bone broth, and herbs until tender and rich.', 'https://example.com/images/paleo-beef-stew.jpg'),
-  (7, 'Mediterranean Pasta', 30, 'Toss pasta with olives, tomatoes, feta, spinach, and olive oil for a fresh dinner.', 'https://example.com/images/mediterranean-pasta.jpg'),
-  (8, 'Yogurt Parfait', 10, 'Layer yogurt with granola, berries, and honey for a quick breakfast or snack.', 'https://example.com/images/yogurt-parfait.jpg');
+  (1, 'Chicken Stir Fry', 35, 'Marinate chicken, chop vegetables, stir fry with soy sauce and serve over rice.', 'https://maplejubilee.com/wp-content/uploads/2021/07/Chicken-stir-fry-V1.jpg'),
+  (2, 'Vegan Buddha Bowl', 25, 'Roast sweet potato, cook quinoa, add chickpeas and fresh greens, drizzle tahini dressing.', 'https://simplyceecee.co/wp-content/uploads/2018/07/veganbuddhabowl-2.jpg'),
+  (3, 'Gluten-Free Pancakes', 20, 'Mix gluten-free flour with almond milk, eggs, and bake on a griddle until golden brown.', 'https://glutenfreebaking.com/wp-content/uploads/2024/06/Stack-of-gluten-free-pancakes.jpg'),
+  (4, 'Salmon with Lemon Rice', 40, 'Pan-sear salmon, cook rice with lemon zest, serve with steamed greens and a light vinaigrette.', 'https://assets.bonappetit.com/photos/5f1b04ecda927390827b1c79/1:1/w_1920,c_limit/Basically-SaffronSalmon-RecipeB.jpg'),
+  (5, 'Avocado Egg Salad', 15, 'Mix hard-boiled eggs with avocado, mustard, and herbs, serve over mixed greens.', 'https://www.wholesomeyum.com/wp-content/uploads/2020/08/wholesomeyum-Avocado-Egg-Salad-Recipe-29.jpg'),
+  (6, 'Paleo Beef Stew', 120, 'Slow cook beef with root vegetables, bone broth, and herbs until tender and rich.', 'https://www.paleorunningmomma.com/wp-content/uploads/2021/01/whole30-beef-stew-2.jpg'),
+  (7, 'Mediterranean Pasta', 30, 'Toss pasta with olives, tomatoes, feta, spinach, and olive oil for a fresh dinner.', 'https://www.wellplated.com/wp-content/uploads/2018/04/Mediterranean-Pasta-recipe.jpg'),
+  (8, 'Yogurt Parfait', 10, 'Layer yogurt with granola, berries, and honey for a quick breakfast or snack.', 'https://www.simplysissom.com/wp-content/uploads/2017/01/horizontalparfaityogurt-copy.jpg');
 
 INSERT INTO `smart_recipe_finder`.`saved_recipes` (`user_id`, `recipe_id`, `date_saved`) VALUES
   (1, 1, '2026-05-21 10:30:00'),
