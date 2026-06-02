@@ -72,6 +72,17 @@
                     Prep time: <strong th:text="${recipe.prepTime} + ' min'"></strong>
                 </p>
 
+<!--                <p th:if="${missingIngredients.size() > 0}}">-->
+<!--                    <b>Missing Ingredients</b>-->
+<!--                </p>-->
+
+                <Strong>Missing Ingredients from Inventory: </Strong>]
+                <ul th:each="ingredients : ${missingIngredients[iterStat.index]}" >
+                    <th:block th:each="ingredient : ${ingredients}" >
+                        <li th:text="${ingredient}"></li>
+                    </th:block>
+                </ul>
+
                 <div th:if="${recipe.instruction != null}"
                      th:utext="${recipe.instruction}"
                      style="font-size: 0.9em; color: #555; margin: 8px 0;">
