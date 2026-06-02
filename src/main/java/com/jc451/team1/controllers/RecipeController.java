@@ -82,25 +82,28 @@ public class RecipeController {
 
         // map raw API maps → Recipe DTOs so Thymeleaf can use the same object
         List<Recipe> recipes = new ArrayList<>();
+        // Recipes objects do not store issing ingredients, therefore, make a List here
+        List<List<String>> missingIngredientsListPerRecipe = new ArrayList<>();
         List<String> sourceUrls = new ArrayList<>(); // should maybe add a field for sourceUrl on Recipe object instead of doing this
-        for (Map<String, Object> r : apiResults) {
+        for (Map<String, Object> result : apiResults) {
             Recipe recipe = new Recipe();
 
-            recipe.setTitle((String) r.get("title"));
-            recipe.setImage((String) r.get("image"));
+            recipe.setTitle((String) result.get("title"));
+            recipe.setImage((String) result.get("image"));
 
             // readyInMinutes comes back when addRecipeInformation=true
-            Object mins = r.get("readyInMinutes");
+            Object mins = result.get("readyInMinutes");
             if (mins instanceof Integer) {
                 recipe.setPrepTime((Integer) mins);
             }
 
             // pull steps from analyzedInstructions into one string
             StringBuilder steps = new StringBuilder();
-            Object analyzedRaw = r.get("analyzedInstructions");
+            Object analyzedRaw = result.get("analyzedInstructions");
             if (analyzedRaw instanceof List<?> analyzedList && !analyzedList.isEmpty()) {
                 Map<String, Object> firstBlock = (Map<String, Object>) analyzedList.get(0);
                 Object stepsRaw = firstBlock.get("steps");
+                // append recipe steps to the recipe object
                 if (stepsRaw instanceof List<?> stepList) {
                     for (Object stepObj : stepList) {
                         Map<String, Object> step = (Map<String, Object>) stepObj;
@@ -110,10 +113,25 @@ public class RecipeController {
                     }
                 }
             }
+            // store missing ingredients in an unordered list
+            List<String> missingIngredients = new ArrayList<>();
+            // append ingredients not in the inventory into a String
+            Object missedIngredientsRaw = result.get("missedIngredients");
+            if (missedIngredientsRaw instanceof List<?> missingIngredientsList && !missingIngredientsList.isEmpty()){
+                Map<String, Object> firstIngredient = (Map<String, Object>) missingIngredientsList.get(0);
+                // append missing ingredients to unordered list of ingredients
+                for (Object ingredientObj : missingIngredientsList) {
+                    Map<String, Object> ingredient = (Map<String, Object>) ingredientObj;
+                    missingIngredients.add((String) ingredient.get("name"));
+                }
+            }
+            // Add the instructions to the Recipe object
             recipe.setInstruction(steps.toString());
-
+            // Now add the recipe to the list of all recipes now that it has been queried for its properties
             recipes.add(recipe);
-            sourceUrls.add((String) r.get("sourceUrl")); // should maybe add a field for sourceUrl on Recipe object instead of doing this
+            // Missing ingredients are only displayed in the recipes page after queried, so they are not stored.
+            missingIngredientsListPerRecipe.add(missingIngredients);
+            sourceUrls.add((String) result.get("sourceUrl")); // should maybe add a field for sourceUrl on Recipe object instead of doing this
         }
 
         model.addAttribute("recipes", recipes);
@@ -121,6 +139,8 @@ public class RecipeController {
 
         // recipe source urls
         model.addAttribute("sourceUrls", sourceUrls);
+        // add missing ingredients
+        model.addAttribute("missingIngredients", missingIngredientsListPerRecipe);
 
         // reload saved recipes so section stays visible after search
         model.addAttribute("savedRecipes", recipeService.getSavedRecipesByUserId(user.getUserId()));
