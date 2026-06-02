@@ -15,7 +15,7 @@
     <h1>Household</h1>
 
     <div class="household-card">
-        <p class="section-title">Create or join household</p>
+        <p class="section-title">Create a household</p>
         <form action="/household/create" method="post">
             <input type="text" name="code" placeholder="Household Code (8 digits)" required>
             <input type="text" name="name" placeholder="Household Name" required>
@@ -23,6 +23,16 @@
             <button type="submit" class="add-btn" style="margin-top: 12px;">Create Household</button>
         </form>
     </div>
+
+    <br>
+    <div class="household-card">
+        <form action="/household/join" method="post">
+            <input type="text" name="code" placeholder="Enter 8-digit invite code" required/>
+            <button type="submit" class="add-btn" style="margin-top: 12px;">Join</button>
+        </form>
+    </div>
+
+    <p th:if="${error}" th:text="${error}" style="color:red"></p>
 
     <br>
 

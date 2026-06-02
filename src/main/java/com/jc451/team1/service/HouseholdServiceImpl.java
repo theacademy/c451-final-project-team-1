@@ -75,4 +75,9 @@ public class HouseholdServiceImpl implements HouseholdService {
     public List<User> getMembers(int householdId) {
         return householdDao.getAllUsers(householdId);
     }
+
+    @Override
+    public Household getHouseholdByCode(String code) {
+        return householdDao.getHouseholdByCode(code);
+    }
 }

@@ -39,9 +39,9 @@ public class HouseholdController {
     }
 
     @PostMapping("household/create")
-    public String createHousehold(@RequestParam String code,
-                                  @RequestParam String name,
-                                  @RequestParam String address,
+    public String createHousehold(@RequestParam("code") String code,
+                                  @RequestParam("name") String name,
+                                  @RequestParam("address") String address,
                                   HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
         if (user == null) return "redirect:/login";
@@ -53,13 +53,58 @@ public class HouseholdController {
 
         household = householdService.createHousehold(household);
         int id = household.getHouseholdId();
+
+        // remove from current household first if they already belong to one
+        int currentHouseholdId = (int) session.getAttribute("householdId");
+        if (currentHouseholdId != 0) {
+            householdService.removeUserFromHousehold(user.getUserId(), currentHouseholdId);
+        }
+
         householdService.addUserToHousehold(user.getUserId(), id);
 
+        session.setAttribute("householdId", id);
         household = householdService.getHousehold(id);
 
         model.addAttribute("household", household);
         model.addAttribute("membersCount", household.getUsers().size());
         model.addAttribute("members", household.getUsers());
         return "redirect:/household";
+    }
+
+    @PostMapping("/household/join")
+    public String joinHousehold(@RequestParam("code") String code,
+                                HttpSession session,
+                                Model model) {
+
+        User user = (User) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+
+        try {
+            // look up the household by invite code
+            Household household = householdService.getHouseholdByCode(code);
+
+            if (household == null) {
+                model.addAttribute("error", "Invalid invite code");
+                return "household";
+            }
+
+            // remove from current household first if they already belong to one
+            int currentHouseholdId = (int) session.getAttribute("householdId");
+            if (currentHouseholdId != 0) {
+                householdService.removeUserFromHousehold(user.getUserId(), currentHouseholdId);
+            }
+
+            // add the user to it
+            householdService.addUserToHousehold(user.getUserId(), household.getHouseholdId());
+
+            // update session so inventory tab knows right away
+            session.setAttribute("householdId", household.getHouseholdId());
+
+            return "redirect:/household";
+
+        } catch (Exception e) {
+            model.addAttribute("error", "Invalid invite code");
+            return "household";
+        }
     }
 }
