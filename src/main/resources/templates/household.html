@@ -4,6 +4,7 @@
 <head>
     <title>Household</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" th:href="@{/images/icon.png}" type="image/png">
 </head>
 
 <body>
@@ -13,6 +14,20 @@
 <div class="container">
 
     <h1>Household</h1>
+
+    <div class="household-card household-info-card">
+        <p class="section-title">Your household</p>
+        <p th:if="${household == null}" style="font-size: 13px; color: #aaa; font-style: italic;">
+            No household created yet.
+        </p>
+        <div th:if="${household != null}">
+            <h2 th:text="${household.householdName}" style="margin: 0 0 8px;"></h2>
+            <p style=" margin: 0 0 12px;">Members: <span th:text="${memberCount}"></span></p>
+            <div th:each="member: ${members}">
+                <span class="tag" th:text="${member.userName}" style="text-transform: capitalize;"></span>
+            </div>
+        </div>
+    </div>
 
     <div class="household-card">
         <p class="section-title">Create a household</p>
@@ -26,6 +41,7 @@
 
     <br>
     <div class="household-card">
+        <p class="section-title">Join a household</p>
         <form action="/household/join" method="post">
             <input type="text" name="code" placeholder="Enter 8-digit invite code" required/>
             <button type="submit" class="add-btn" style="margin-top: 12px;">Join</button>
@@ -35,20 +51,6 @@
     <p th:if="${error}" th:text="${error}" style="color:red"></p>
 
     <br>
-
-    <div class="household-card">
-        <p class="section-title">Your household</p>
-        <p th:if="${household == null}" style="font-size: 13px; color: #aaa; font-style: italic;">
-            No household created yet.
-        </p>
-        <div th:if="${household != null}">
-            <h2 th:text="${household.householdName}" style="margin: 0 0 8px;"></h2>
-            <p style="font-size: 13px; color: #888; margin: 0 0 12px;">Members: <span th:text="${memberCount}"></span></p>
-            <div th:each="member: ${members}">
-                <span class="tag" th:text="${member.userName}" style="text-transform: capitalize;"></span>
-            </div>
-        </div>
-    </div>
 
 </div>
 

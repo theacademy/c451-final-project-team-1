@@ -1,147 +1,127 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <title>Recipes</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" th:href="@{/images/icon.png}" type="image/png">
 </head>
-
 <body>
 
 <div th:replace="fragments/header :: header"></div>
 
-<div class="container">
+<div class="container recipes-container">
 
     <h1>Recipes</h1>
 
-    <div class="card">
+    <div class="recipes-top-row">
 
-        <h3>Find Recipes</h3>
+        <!-- Find Recipes -->
+        <div class="recipe-search-card">
+            <h3>Find Recipes</h3>
+            <form action="/recipes/search" method="get">
 
-        <form action="/recipes/search" method="get">
-
-            <!-- show what ingredients will be sent to the API -->
-            <div th:if="${inventoryItems != null and !inventoryItems.isEmpty()}">
-                <p>Searching with ingredients from your fridge:</p>
-                <ul>
-                    <li th:each="item : ${inventoryItems}" th:text="${item.ingredientName}"></li>
-                </ul>
-            </div>
-
-            <p th:if="${session.user.dietaryRestrictions != null and !session.user.dietaryRestrictions.isEmpty()}">
-                Diet: <strong th:text="${#strings.listJoin(session.user.dietaryRestrictions, ', ')}"></strong>
-            </p>
-
-            <p th:if="${session.user.intolerances != null and !session.user.intolerances.isEmpty()}">
-                Intolerances: <strong th:text="${#strings.listJoin(session.user.intolerances, ', ')}"></strong>
-            </p>
-
-            <button type="submit">
-                Search
-            </button>
-
-        </form>
-
-    </div>
-
-    <br>
-
-    <div class="card">
-
-        <h3>Recipe Results</h3>
-
-        <div th:if="${recipes == null or recipes.isEmpty()}">
-            <p>No recipes searched yet.</p>
-        </div>
-
-        <div th:if="${recipes != null and !recipes.isEmpty()}">
-
-            <div th:each="recipe, iterStat : ${recipes}"
-                 style="margin-bottom: 20px;">
-                <h2>
-                    <a th:href="${sourceUrls[iterStat.index]}"
-                       th:text="${recipe.title}"
-                       target="_blank">
-                    </a>
-                </h2>
-
-                <img th:src="${recipe.image}"
-                     width="250" th:alt="${recipe.title}">
-
-                <p th:if="${recipe.prepTime > 0}">
-                    Prep time: <strong th:text="${recipe.prepTime} + ' min'"></strong>
-                </p>
-
-<!--                <p th:if="${missingIngredients.size() > 0}}">-->
-<!--                    <b>Missing Ingredients</b>-->
-<!--                </p>-->
-
-                <Strong>Missing Ingredients from Inventory: </Strong>
-                <ul th:each="ingredients : ${missingIngredients[iterStat.index]}" >
-                    <th:block th:each="ingredient : ${ingredients}" >
-                        <li th:text="${ingredient}"></li>
-                    </th:block>
-                </ul>
-
-                <div th:if="${recipe.instruction != null}"
-                     th:utext="${recipe.instruction}"
-                     style="font-size: 0.9em; color: #555; margin: 8px 0;">
+                <div th:if="${inventoryItems != null and !inventoryItems.isEmpty()}">
+                    <p class="find-recipe-label">Searching with ingredients from your fridge:</p>
+                    <ul class="ingredient-list">
+                        <li th:each="item : ${inventoryItems}" th:text="${item.ingredientName}"></li>
+                    </ul>
                 </div>
 
-                <form action="/recipes/save" method="post">
-                    <input type="hidden" name="title"       th:value="${recipe.title}">
-                    <input type="hidden" name="image"       th:value="${recipe.image}">
-                    <input type="hidden" name="prepTime"    th:value="${recipe.prepTime}">
-                    <input type="hidden" name="instruction" th:value="${recipe.instruction}">
-                    <button type="submit">Save Recipe</button>
-                </form>
+                <p th:if="${session.user.dietaryRestrictions != null and !session.user.dietaryRestrictions.isEmpty()}" class="find-recipe-label">
+                    Diet: <strong th:text="${#strings.listJoin(session.user.dietaryRestrictions, ', ')}"></strong>
+                </p>
 
+                <p th:if="${session.user.intolerances != null and !session.user.intolerances.isEmpty()}" class="find-recipe-label">
+                    Intolerances: <strong th:text="${#strings.listJoin(session.user.intolerances, ', ')}"></strong>
+                </p>
+
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </div>
+
+        <!-- Recipe Results -->
+        <div class="recipe-results-card">
+            <h3>Recipe Results</h3>
+
+            <div th:if="${recipes == null or recipes.isEmpty()}">
+                <p class="recipe-empty">No recipes searched yet.</p>
             </div>
 
+            <div th:if="${recipes != null and !recipes.isEmpty()}" class="recipe-grid">
+                <div th:each="recipe, iterStat : ${recipes}" class="recipe-card">
+
+                    <img th:src="${recipe.image}" th:alt="${recipe.title}" class="recipe-img">
+
+                    <div class="recipe-card-body">
+                        <h4>
+                            <a th:href="${sourceUrls[iterStat.index]}"
+                               th:text="${recipe.title}"
+                               target="_blank" class="recipe-title-link">
+                            </a>
+                        </h4>
+
+                        <p th:if="${recipe.prepTime > 0}" class="recipe-prep">
+                            ⏱ <strong th:text="${recipe.prepTime} + ' min'"></strong>
+                        </p>
+
+                        <details class="missing-details" th:if="${missingIngredients[iterStat.index] != null}">
+                            <summary>Missing ingredients</summary>
+                            <ul>
+                                <th:block th:each="ingredients : ${missingIngredients[iterStat.index]}">
+                                    <li th:each="ingredient : ${ingredients}" th:text="${ingredient}"></li>
+                                </th:block>
+                            </ul>
+                        </details>
+
+                        <form action="/recipes/save" method="post">
+                            <input type="hidden" name="title"       th:value="${recipe.title}">
+                            <input type="hidden" name="image"       th:value="${recipe.image}">
+                            <input type="hidden" name="prepTime"    th:value="${recipe.prepTime}">
+                            <input type="hidden" name="instruction" th:value="${recipe.instruction}">
+                            <button type="submit" class="save-btn">+ Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
 
-    <br>
-
-    <!-- ── SAVED RECIPES ── -->
-    <div class="card">
-        <h3>Your Saved Recipes</h3>
+    <!-- Saved Recipes -->
+    <div class="recipe-saved-section">
+        <h2>Your Saved Recipes</h2>
 
         <div th:if="${savedRecipes == null or savedRecipes.isEmpty()}">
-            <p>No saved recipes yet. Search and save one above!</p>
+            <p class="recipe-empty">No saved recipes yet. Search and save one above!</p>
         </div>
 
-        <div th:if="${savedRecipes != null and !savedRecipes.isEmpty()}">
-            <div th:each="recipe : ${savedRecipes}"
-                 style="margin-bottom: 16px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+        <div th:if="${savedRecipes != null and !savedRecipes.isEmpty()}" class="recipe-grid">
+            <div th:each="recipe : ${savedRecipes}" class="recipe-card">
 
-                <h2 th:text="${recipe.title}"></h2>
+                <img th:src="${recipe.image}" th:if="${recipe.image != null}"
+                     th:alt="${recipe.title}" class="recipe-img">
 
-                <img th:src="${recipe.image}"
-                     th:if="${recipe.image != null}"
-                     width="250"
-                     th:alt="${recipe.title}">
+                <div class="recipe-card-body">
+                    <h4 th:text="${recipe.title}"></h4>
 
-                <p th:if="${recipe.prepTime > 0}">
-                    Prep time: <strong th:text="${recipe.prepTime} + ' min'"></strong>
-                </p>
+                    <p th:if="${recipe.prepTime > 0}" class="recipe-prep">
+                        ⏱ <strong th:text="${recipe.prepTime} + ' min'"></strong>
+                    </p>
 
-                <div th:if="${recipe.instruction != null}"
-                     th:utext="${recipe.instruction}"
-                     style="font-size: 0.9em; color: #555; margin: 8px 0;">
+                    <div th:if="${recipe.instruction != null}"
+                         th:utext="${recipe.instruction}"
+                         class="recipe-instruction">
+                    </div>
+
+                    <form action="/recipes/remove" method="post">
+                        <input type="hidden" name="recipeId" th:value="${recipe.recipeId}">
+                        <button type="submit" class="remove-btn">Remove</button>
+                    </form>
                 </div>
-
-                <form action="/recipes/remove" method="post">
-                    <input type="hidden" name="recipeId" th:value="${recipe.recipeId}">
-                    <button type="submit">Remove</button>
-                </form>
-
             </div>
         </div>
     </div>
 
 </div>
-
 </body>
 </html>
