@@ -21,7 +21,12 @@
         <form action="/household/create" method="post">
 
             <input type="text"
-                   name="householdName"
+                   name="code"
+                   placeholder="Household Code (8 digits)"
+                   required>
+
+            <input type="text"
+                   name="name"
                    placeholder="Household Name"
                    required>
 
@@ -54,6 +59,9 @@
             <p>
                 Members:
                 <span th:text="${memberCount}"></span>
+                <div th:each="member: ${members}">
+                    <div th:text="${member.userName}"></div>
+                </div>
             </p>
 
         </div>

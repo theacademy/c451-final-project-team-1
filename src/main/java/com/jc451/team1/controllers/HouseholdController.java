@@ -1,19 +1,65 @@
 package com.jc451.team1.controllers;
 
+import com.jc451.team1.dto.Household;
+import com.jc451.team1.dto.User;
+import com.jc451.team1.service.HouseholdService;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HouseholdController {
-    // Bare minimum to show html page
+
+    private final HouseholdService householdService;
+
+    @Autowired
+    public HouseholdController(HouseholdService householdService) {
+        this.householdService = householdService;
+    }
+
     @GetMapping("/household")
-    public String householdPage() {
+    public String householdPage(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+
+        Household household = householdService
+                .getHouseholdFromUser(user.getUserId());
+
+        model.addAttribute("household", household);
+        if (household != null) {
+            model.addAttribute("memberCount", household.getUsers().size());
+            model.addAttribute("members", household.getUsers());
+        }
+
         return "household";
     }
 
     @PostMapping("household/create")
-    public String createHousehold() {
+    public String createHousehold(@RequestParam String code,
+                                  @RequestParam String name,
+                                  @RequestParam String address,
+                                  HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+
+        Household household = new  Household();
+        household.setCode(code);
+        household.setHouseholdName(name);
+        household.setAddress(address);
+
+        household = householdService.createHousehold(household);
+        int id = household.getHouseholdId();
+        householdService.addUserToHousehold(user.getUserId(), id);
+
+        household = householdService.getHousehold(id);
+
+        model.addAttribute("household", household);
+        model.addAttribute("membersCount", household.getUsers().size());
+        model.addAttribute("members", household.getUsers());
         return "redirect:/household";
     }
 }

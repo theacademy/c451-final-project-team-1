@@ -22,9 +22,11 @@ public class InventoryItemServiceImpl implements InventoryItemService {
 
     @Override
     public InventoryItem addInventoryItem(InventoryItem item) {
+        LocalDate expirationDate = item.getExpirationDate();
         boolean error = item.getIngredientName().isBlank()
                 || item.getQuantity() <= 0
-                || item.getExpirationDate().isBefore(LocalDate.now());
+                || expirationDate != null
+                && expirationDate.isBefore(LocalDate.now());
 
         if (error) item.setId(-1);
         else item = inventoryItemDao.addInventoryItem(item);

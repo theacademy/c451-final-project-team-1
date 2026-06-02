@@ -15,6 +15,8 @@ public interface HouseholdDao {
 
     Household getHouseholdByCode(String householdCode);
 
+    Household getHouseholdFromUser(int userId);
+
     void addUserToHousehold(int userId, int householdId);
 
     void removeUserFromHousehold(int userId, int householdId);
