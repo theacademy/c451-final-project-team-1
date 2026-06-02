@@ -40,12 +40,13 @@ public class HouseholdServiceImpl implements HouseholdService {
 
     @Override
     public Household getHouseholdFromUser(int userId) {
-        return null;
+        return householdDao.getHouseholdFromUser(userId);
     }
 
     @Override
     public boolean addUserToHousehold(int userId, int householdId) {
-        if (getHousehold(householdId) == null) {
+        Household household = getHousehold(householdId);
+        if (household == null) {
             return false;
         }
 

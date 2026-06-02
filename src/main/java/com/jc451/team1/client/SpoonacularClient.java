@@ -44,6 +44,8 @@ public class SpoonacularClient {
 
         if (ingredients != null && !ingredients.isBlank()) {
             url.append("&includeIngredients=").append(ingredients.trim());
+            url.append("&sort=max-used-ingredients");
+            url.append("&sortDirection=desc");
         }
         if (diet != null && !diet.isBlank()) {
             url.append("&diet=").append(diet.trim());

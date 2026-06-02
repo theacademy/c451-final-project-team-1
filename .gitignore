@@ -38,4 +38,4 @@ build/
 ### Mac OS ###
 .DS_Store
 
-*application.properties
+application-local.properties
