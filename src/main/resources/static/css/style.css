@@ -136,3 +136,112 @@ button:hover {
 .add-btn:hover {
     background: #3d5166;
 }
+
+.inventory-card,.household-card  {
+    background: white;
+    border: 0.5px solid #ddd;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 0 auto 16px auto;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.form-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.form-row input[type="text"] {
+    flex: 2;
+    width: auto;
+    margin: 0;
+}
+
+.form-row input[type="number"] {
+    width: 80px;
+    margin: 0;
+}
+
+.form-row input[type="date"] {
+    width: 140px;
+    margin: 0;
+}
+
+.form-row select {
+    width: auto;
+    padding: 9px 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-row button {
+    width: auto;
+    margin: 0;
+    padding: 9px 16px;
+    border-radius: 6px;
+    background: #2c3e50;
+}
+
+/* table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+thead th {
+    text-align: left;
+    font-size: 12px;
+    font-weight: 500;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 8px 12px;
+    border-bottom: 0.5px solid #ddd;
+}
+
+tbody td {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid #f0f0f0;
+    vertical-align: middle;
+}
+
+/* small table buttons */
+.btn-update {
+    padding: 5px 12px;
+    background: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    width: auto;
+    margin: 0;
+}
+
+.btn-remove {
+    padding: 5px 12px;
+    background: white;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    width: auto;
+    margin: 0;
+}
+
+.btn-remove:hover {
+    background: #e74c3c;
+    color: white;
+}
+
+/* expired row highlight */
+.expired td {
+    background-color: #fff5f5;
+    color: #c0392b;
+}
