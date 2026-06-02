@@ -1,47 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <title>Register</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" th:href="@{/images/icon.png}" type="image/png">
 </head>
-
 <body>
 
-<div class="card">
+<div class="login-bg">
+    <div class="login-card">
 
-    <h2>Create Account</h2>
+        <div class="login-header">
+            <img th:src="@{/images/icon.png}" alt="logo" class="login-logo">
+            <h2>Smart Recipe Finder</h2>
+            <p>Create your account</p>
+        </div>
 
-    <form action="/register" method="post">
+        <form action="/register" method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+            <button type="submit" class="login-btn">Create Account</button>
+        </form>
 
-        <input type="text"
-               name="username"
-               placeholder="Username"
-               required>
+        <p class="error" th:if="${error}" th:text="${error}"></p>
+        <p class="login-signup">Already have an account? <a href="/login">Sign in</a></p>
 
-        <input type="email"
-               name="email"
-               placeholder="Email"
-               required>
-
-        <input type="password"
-               name="password"
-               placeholder="Password"
-               required>
-
-        <input type="password"
-               name="confirmPassword"
-               placeholder="Confirm Password"
-               required>
-
-        <button type="submit">Create Account</button>
-
-    </form>
-
-    <p class="error" th:if="${error}" th:text="${error}"></p>
-
-    <p>Already have an account? <a href="/login">Sign in</a></p>
-
+    </div>
 </div>
 
 </body>
