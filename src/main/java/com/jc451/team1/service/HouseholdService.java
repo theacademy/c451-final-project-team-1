@@ -20,4 +20,6 @@ public interface HouseholdService {
     List<InventoryItem> getInventoryItems(int householdId);
 
     List<User> getMembers(int householdId);
+
+    Household getHouseholdByCode(String code);
 }
