@@ -4,6 +4,8 @@
 <head>
     <title>Dashboard</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" th:href="@{/images/icon.png}" type="image/png">
+
 </head>
 
 <body>
@@ -14,8 +16,17 @@
 
     <h1>Welcome <span th:text="${session.user.userName}" style="text-transform: capitalize;"></span> !</h1>
 
+    <div class="homepage-desc">
+        <p>Track what's in your fridge, manage dietary needs, and discover recipes tailored just for you.</p>
+        <div class="homepage-pills">
+            <div class="feature-pill"> Smart recipe matching</div>
+            <div class="feature-pill"> Household management</div>
+            <div class="feature-pill"> Fridge & Pantry inventory tracking</div>
+        </div>
+    </div>
+
     <!-- ── INTOLERANCES ── -->
-    <div class="section-card">
+    <div class="homepage-section-card">
         <p class="section-title">Your intolerances</p>
         <div class="tag-row">
             <span class="tag" th:each="intolerance : ${session.user.intolerances}">
@@ -25,8 +36,8 @@
                             <button type="submit">✕</button>
                     </form>
                 </span>
-                    <span th:if="${session.user.intolerances == null or session.user.intolerances.isEmpty()}"
-                        style="font-size: 13px; color: #aaa; font-style: italic;">
+            <span th:if="${session.user.intolerances == null or session.user.intolerances.isEmpty()}"
+                  style="font-size: 13px; color: #aaa; font-style: italic;">
                             None set
                     </span>
         </div>
@@ -39,9 +50,9 @@
     </div>
 
     <!-- ── DIETARY RESTRICTIONS ── -->
-    <div class="section-card">
+    <div class="homepage-section-card">
         <p class="section-title">Your dietary restrictions</p>
-            <div class="tag-row">
+        <div class="tag-row">
                 <span class="tag" th:each="diet : ${session.user.dietaryRestrictions}">
                     <span th:text="${diet}"></span>
                         <form th:action="@{/homepage/removeDiet}" method="post" style="display:inline">
@@ -49,17 +60,17 @@
                                 <button type="submit">✕</button>
                         </form>
                     </span>
-                <span th:if="${session.user.dietaryRestrictions == null or session.user.dietaryRestrictions.isEmpty()}"
+            <span th:if="${session.user.dietaryRestrictions == null or session.user.dietaryRestrictions.isEmpty()}"
                   style="font-size: 13px; color: #aaa; font-style: italic;">
                     None set
                 </span>
         </div>
-            <form th:action="@{/homepage/addDiet}" method="post" class="add-row">
-                <select name="dietId">
-                    <option th:each="diet : ${allDiets}" th:value="${diet.id}" th:text="${diet.name}"></option>
-                    </select>
-                        <button type="submit" class="add-btn">+ Add</button>
-            </form>
+        <form th:action="@{/homepage/addDiet}" method="post" class="add-row">
+            <select name="dietId">
+                <option th:each="diet : ${allDiets}" th:value="${diet.id}" th:text="${diet.name}"></option>
+            </select>
+            <button type="submit" class="add-btn">+ Add</button>
+        </form>
     </div>
 
 </div>

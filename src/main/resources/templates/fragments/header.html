@@ -5,13 +5,14 @@
 
 <div th:fragment="header">
     <div class="navbar">
-        <a href="/homepage">
-            <img th:src="@{images/icon.png}" alt="Smart Recipe Finder">
+        <a href="/homepage" class="navbar-brand">
+            <img th:src="@{/images/icon.png}" alt="Smart Recipe Finder" style="height: 40px;">
+            <span>Smart Recipe Finder</span>
         </a>
         <a href="/inventory">Inventory</a>
         <a href="/recipes">Recipes</a>
         <a href="/household">Household</a>
-        <a href="/logout">Logout</a>
+        <a href="/logout" style="margin-left: auto;">Logout</a>
     </div>
 </div>
 
