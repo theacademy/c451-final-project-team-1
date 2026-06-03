@@ -471,20 +471,6 @@ tbody td {
     line-height: 1.6;
 }
 
-.homepage-pills {
-    display: flex;
-    gap: 12px;
-}
-
-.feature-pill{
-    background: white;
-    border: 0.5px solid #ddd;
-    border-radius: 20px;
-    padding: 6px 14px;
-    font-size: 15px;
-    color: #444;
-}
-
 /*Login & signup page*/
 
 .login-bg {
